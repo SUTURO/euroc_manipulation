@@ -1,0 +1,8 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: ""
+    relative_path: /home/ichumuh/uni/euroc_ws/src/euroc_manipulation/my.urdf
+  SRDF:
+    relative_path: config/kuka_lwr.srdf
+  CONFIG:
+    generated_timestamp: 1405771145
