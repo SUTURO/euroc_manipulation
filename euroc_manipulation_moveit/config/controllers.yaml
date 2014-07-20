@@ -4,17 +4,17 @@ controller_list:
    type: FollowJointTrajectory
    default: true
    joints:
-     - joint1
-     - joint2
-     - joint3
-     - joint4
-     - joint5
-     - joint6
-     - joint7
- - name: gripper_controller
-   action_ns: gripper_action
-   type: GripperCommand
-   default: true
-   joints:
-     - joint_before_finger2
-     - joint_before_finger1
+     - lwr_joint_1
+     - lwr_joint_2
+     - lwr_joint_3
+     - lwr_joint_4
+     - lwr_joint_5
+     - lwr_joint_6
+     - lwr_joint_7
+# - name: gripper_controller
+   #action_ns: gripper_action
+   #type: GripperCommand
+   #default: true
+   #joints:
+     #- joint_before_finger2
+     #- joint_before_finger1

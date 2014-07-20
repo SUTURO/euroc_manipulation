@@ -11,16 +11,16 @@ using namespace std;
 ros::Publisher joint_state_pub;
 
 // 'axis_x', 'axis_y', 'lwr_joint_1', 'lwr_joint_2', 'lwr_joint_3', 'lwr_joint_4', 'lwr_joint_5', 'lwr_joint_6', 'lwr_joint_7', 'gripper', 'cam_pan', 'cam_tilt'
-string map_joint(string joint)
-{
-    if (joint == "lwr_joint_1") return "joint1";
-    if (joint == "lwr_joint_2") return "joint2";
-    if (joint == "lwr_joint_3") return "joint3";
-    if (joint == "lwr_joint_4") return "joint4";
-    if (joint == "lwr_joint_5") return "joint5";
-    if (joint == "lwr_joint_6") return "joint6";
-    if (joint == "lwr_joint_7") return "joint7";
-}
+// string map_joint(string joint)
+// {
+//     if (joint == "lwr_joint_1") return "joint1";
+//     if (joint == "lwr_joint_2") return "joint2";
+//     if (joint == "lwr_joint_3") return "joint3";
+//     if (joint == "lwr_joint_4") return "joint4";
+//     if (joint == "lwr_joint_5") return "joint5";
+//     if (joint == "lwr_joint_6") return "joint6";
+//     if (joint == "lwr_joint_7") return "joint7";
+// }
 
 void callback(const euroc_c2_msgs::Telemetry::ConstPtr &telemetry)
 {
@@ -29,7 +29,7 @@ void callback(const euroc_c2_msgs::Telemetry::ConstPtr &telemetry)
 
     for (int i = 2; i < telemetry->joint_names.size() - 3; ++i)
     {
-        joint_state.name.push_back(map_joint( telemetry->joint_names[i]));
+        joint_state.name.push_back(telemetry->joint_names[i]);
         joint_state.position.push_back(telemetry->measured.position[i]);
         joint_state.velocity.push_back(telemetry->commanded.velocity[i]);
         joint_state.effort.push_back(telemetry->commanded.acceleration[i]);

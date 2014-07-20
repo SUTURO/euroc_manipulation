@@ -11,13 +11,13 @@
     <!--SUBGROUPS: Groups can also be formed by referencing to already defined group names-->
     <group name="arm">
         <joint name="base_joint" />
-        <joint name="joint1" />
-        <joint name="joint2" />
-        <joint name="joint3" />
-        <joint name="joint4" />
-        <joint name="joint5" />
-        <joint name="joint6" />
-        <joint name="joint7" />
+        <joint name="lwr_joint_1" />
+        <joint name="lwr_joint_2" />
+        <joint name="lwr_joint_3" />
+        <joint name="lwr_joint_4" />
+        <joint name="lwr_joint_5" />
+        <joint name="lwr_joint_6" />
+        <joint name="lwr_joint_7" />
     </group>
     <group name="gripper">
         <joint name="joint_before_finger1" />
