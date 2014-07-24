@@ -7,6 +7,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   actionlib 
   actionlib_msgs
+  tf
 )
 
 catkin_package()

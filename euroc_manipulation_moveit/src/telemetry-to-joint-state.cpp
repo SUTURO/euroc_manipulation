@@ -1,14 +1,13 @@
-//hyperspec
-//gsll
-
-
 #include "ros/ros.h"
 #include <sensor_msgs/JointState.h>
 #include <euroc_c2_msgs/Telemetry.h>
+#include <tf/transform_broadcaster.h>
 
 using namespace std;
 
 ros::Publisher joint_state_pub;
+
+tf::TransformBroadcaster* br;
 
 // 'axis_x', 'axis_y', 'lwr_joint_1', 'lwr_joint_2', 'lwr_joint_3', 'lwr_joint_4', 'lwr_joint_5', 'lwr_joint_6', 'lwr_joint_7', 'gripper', 'cam_pan', 'cam_tilt'
 // string map_joint(string joint)
@@ -21,6 +20,21 @@ ros::Publisher joint_state_pub;
 //     if (joint == "lwr_joint_6") return "joint6";
 //     if (joint == "lwr_joint_7") return "joint7";
 // }
+
+void publishTfFrame(std::string frame_id, geometry_msgs::PoseStamped pose, tf::TransformBroadcaster br)
+{
+
+    ROS_DEBUG_STREAM("Publish TF frame " << frame_id);
+    tf::Transform transform;
+    transform.setOrigin( tf::Vector3(pose.pose.position.x,    pose.pose.position.y, pose.pose.position.z) );
+
+    transform.setRotation( tf::Quaternion(pose.pose.orientation.x,
+                                          pose.pose.orientation.y,
+                                          pose.pose.orientation.z,
+                                          pose.pose.orientation.w) );
+ 
+    br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), pose.header.frame_id, frame_id));
+}
 
 void callback(const euroc_c2_msgs::Telemetry::ConstPtr &telemetry)
 {
@@ -46,12 +60,19 @@ void callback(const euroc_c2_msgs::Telemetry::ConstPtr &telemetry)
     joint_state.effort.push_back(0);
 
     joint_state_pub.publish(joint_state);
+
+    geometry_msgs::PoseStamped cam_pose;
+    cam_pose.header.frame_id = "/pt_base";
+    cam_pose.pose.orientation = tf::createQuaternionMsgFromRollPitchYaw(0, telemetry->measured.position[11], telemetry->measured.position[10]);
+    publishTfFrame("/pt", cam_pose, *br);
+
 }
 
 int main(int argc, char **argv)
 {
     ros::init(argc, argv, "telemetry_to_joint_state");
     ros::NodeHandle n;
+    br = new tf::TransformBroadcaster();
 
     joint_state_pub = n.advertise < sensor_msgs::JointState > ( "/joint_states", 10 );
 
@@ -59,6 +80,12 @@ int main(int argc, char **argv)
     ROS_INFO_STREAM("hi");
 
     ros::spin();
+
+    // while (n.ok())
+    // {
+
+    // }
+
     ros::waitForShutdown();
     return 0;
 }
