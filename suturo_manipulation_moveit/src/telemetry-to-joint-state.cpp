@@ -7,7 +7,7 @@ using namespace std;
 
 ros::Publisher joint_state_pub;
 
-tf::TransformBroadcaster* br;
+tf::TransformBroadcaster *br;
 
 // 'axis_x', 'axis_y', 'lwr_joint_1', 'lwr_joint_2', 'lwr_joint_3', 'lwr_joint_4', 'lwr_joint_5', 'lwr_joint_6', 'lwr_joint_7', 'gripper', 'cam_pan', 'cam_tilt'
 // string map_joint(string joint)
@@ -32,9 +32,37 @@ void publishTfFrame(std::string frame_id, geometry_msgs::PoseStamped pose, tf::T
                                           pose.pose.orientation.y,
                                           pose.pose.orientation.z,
                                           pose.pose.orientation.w) );
- 
+
     br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), pose.header.frame_id, frame_id));
 }
+
+// void publish_cam_frames(tf::TransformBroadcaster br)
+// {
+//     geometry_msgs::PoseStamped ps;
+//     ps.header.frame_id = "/pt";
+//     ps.pose.position.x = 0.1;
+//     ps.pose.position.y = 0.02;
+//     publishTfFrame("/srgb", ps, br);
+
+//     ps.header.frame_id = "/srgb";
+//     ps.pose.position.x = 0.1;
+//     ps.pose.position.y = 0.02;
+//     publishTfFrame("/sdepth", ps, br);
+
+//     ps.header.frame_id = "/gp";
+//     ps.pose.position.x = -0.02;
+//     ps.pose.position.y = 0.0565;
+//     ps.pose.position.z = -0.063;
+//     cam_pose.pose.orientation = tf::createQuaternionMsgFromRollPitchYaw(-1.5708,  1.5708,  0.0);
+//     publishTfFrame("/trgb", ps, br);
+
+//     ps.header.frame_id = "/trgb";
+//     ps.pose.position.x = 0;
+//     ps.pose.position.y = -0.04;
+//     ps.pose.position.z = 0;
+//     cam_pose.pose.orientation = tf::createQuaternionMsgFromRollPitchYaw(0.0, 0.0, 0.0);
+//     publishTfFrame("/tdepth", ps, br);
+// }
 
 void callback(const euroc_c2_msgs::Telemetry::ConstPtr &telemetry)
 {
