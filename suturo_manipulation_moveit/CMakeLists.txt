@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(euroc_manipulation_moveit)
+project(suturo_manipulation_moveit)
 
 find_package(catkin REQUIRED COMPONENTS
   euroc_c2_msgs
@@ -33,7 +33,7 @@ add_executable(arm_controller src/arm_controller.cpp)
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
 # add_dependencies(state_publisher_node state_publisher_generate_messages_cpp)
-add_dependencies(arm_controller suturo_manipulation_msgs ${catkin_EXPORTED_TARGETS})
+add_dependencies(arm_controller ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
 # target_link_libraries(state_publisher_node

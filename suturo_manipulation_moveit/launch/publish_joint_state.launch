@@ -1,10 +1,10 @@
 <launch>
 
-  <include file="$(find euroc_manipulation_moveit)/launch/planning_context.launch">
+  <include file="$(find suturo_manipulation_moveit)/launch/planning_context.launch">
     <arg name="load_robot_description" value="true"/>
   </include>
 
-  <node name="telemetry_to_joint_state" pkg="euroc_manipulation_moveit" type="telemetry_to_joint_state" output="screen"/>
+  <node name="telemetry_to_joint_state" pkg="suturo_manipulation_moveit" type="telemetry_to_joint_state" output="screen"/>
 
   <node pkg="tf" type="static_transform_publisher" name="virtual_joint_broadcaster_0" args="0 0 0 0 0 0 odom_combined base_link 100"/>
   <node pkg="tf" type="static_transform_publisher" name="virtual_joint_broadcaster_1" args="0.92 0.92 0 -2.356 0 0 odom_combined cm 100"/>
