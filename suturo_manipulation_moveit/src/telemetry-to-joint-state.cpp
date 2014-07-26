@@ -42,21 +42,22 @@ void publish_cam_frames()
     ps.header.frame_id = "/pt";
     ps.pose.position.x = 0.1;
     ps.pose.position.y = 0.02;
-    ps.pose.orientation =  tf::createQuaternionMsgFromRollPitchYaw(-M_PI_2,  0.0,  -M_PI_2);
+    ps.pose.orientation.w = 1;
+    // ps.pose.orientation =  tf::createQuaternionMsgFromRollPitchYaw(-M_PI_2,  0.0,  -M_PI_2);
     publishTfFrame("/srgb", ps, *br);
 
     ps.header.frame_id = "/srgb";
     ps.pose.position.x = 0.04;
     ps.pose.position.y = 0;
-        ps.pose.orientation = tf::createQuaternionMsgFromRollPitchYaw(0.0, 0.0, 0.0);
+    // ps.pose.orientation = tf::createQuaternionMsgFromRollPitchYaw(0.0, 0.0, 0.0);
     publishTfFrame("/sdepth", ps, *br);
 
     ps.header.frame_id = "/gp";
     ps.pose.position.x = -0.02;
     ps.pose.position.y = 0.0565;
     ps.pose.position.z = -0.063;
-    // ps.pose.orientation = tf::createQuaternionMsgFromRollPitchYaw(-1.5708,  1.5708,  0.0);
-    ps.pose.orientation = tf::createQuaternionMsgFromRollPitchYaw(M_PI, 0.0, 0.0);
+    ps.pose.orientation = tf::createQuaternionMsgFromRollPitchYaw(-1.5708,  1.5708,  0.0);
+    // ps.pose.orientation = tf::createQuaternionMsgFromRollPitchYaw(M_PI, 0.0, 0.0);
     publishTfFrame("/trgb", ps, *br);
 
     ps.header.frame_id = "/trgb";
@@ -81,14 +82,14 @@ void callback(const euroc_c2_msgs::Telemetry::ConstPtr &telemetry)
 
     }
     joint_state.name.push_back("joint_before_finger2");
-    joint_state.position.push_back(0);
-    joint_state.velocity.push_back(0);
-    joint_state.effort.push_back(0);
+    joint_state.position.push_back(telemetry->measured.position[9] / 2);
+    joint_state.velocity.push_back(telemetry->commanded.velocity[9]);
+    joint_state.effort.push_back(telemetry->commanded.acceleration[9]);
 
     joint_state.name.push_back("joint_before_finger1");
-    joint_state.position.push_back(0);
-    joint_state.velocity.push_back(0);
-    joint_state.effort.push_back(0);
+    joint_state.position.push_back(-telemetry->measured.position[9] / 2);
+    joint_state.velocity.push_back(telemetry->commanded.velocity[9]);
+    joint_state.effort.push_back(telemetry->commanded.acceleration[9]);
 
     joint_state_pub.publish(joint_state);
 
