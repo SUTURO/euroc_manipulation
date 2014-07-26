@@ -42,24 +42,26 @@ void publish_cam_frames()
     ps.header.frame_id = "/pt";
     ps.pose.position.x = 0.1;
     ps.pose.position.y = 0.02;
-    ps.pose.orientation.w = 1;
+    ps.pose.orientation =  tf::createQuaternionMsgFromRollPitchYaw(-M_PI_2,  0.0,  -M_PI_2);
     publishTfFrame("/srgb", ps, *br);
 
     ps.header.frame_id = "/srgb";
-    ps.pose.position.x = 0;
-    ps.pose.position.y = -0.04;
+    ps.pose.position.x = 0.04;
+    ps.pose.position.y = 0;
+        ps.pose.orientation = tf::createQuaternionMsgFromRollPitchYaw(0.0, 0.0, 0.0);
     publishTfFrame("/sdepth", ps, *br);
 
     ps.header.frame_id = "/gp";
     ps.pose.position.x = -0.02;
     ps.pose.position.y = 0.0565;
     ps.pose.position.z = -0.063;
-    ps.pose.orientation = tf::createQuaternionMsgFromRollPitchYaw(-1.5708,  1.5708,  0.0);
+    // ps.pose.orientation = tf::createQuaternionMsgFromRollPitchYaw(-1.5708,  1.5708,  0.0);
+    ps.pose.orientation = tf::createQuaternionMsgFromRollPitchYaw(M_PI, 0.0, 0.0);
     publishTfFrame("/trgb", ps, *br);
 
     ps.header.frame_id = "/trgb";
-    ps.pose.position.x = 0;
-    ps.pose.position.y = -0.04;
+    ps.pose.position.x = 0.04;
+    ps.pose.position.y = 0;
     ps.pose.position.z = 0;
     ps.pose.orientation = tf::createQuaternionMsgFromRollPitchYaw(0.0, 0.0, 0.0);
     publishTfFrame("/tdepth", ps, *br);
