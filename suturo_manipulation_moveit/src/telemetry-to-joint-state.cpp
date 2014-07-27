@@ -47,8 +47,8 @@ void publish_cam_frames()
     publishTfFrame("/srgb", ps, *br);
 
     ps.header.frame_id = "/srgb";
-    ps.pose.position.x = 0.04;
-    ps.pose.position.y = 0;
+    ps.pose.position.x = 0;//0.04;
+    ps.pose.position.y = -0.04;
     // ps.pose.orientation = tf::createQuaternionMsgFromRollPitchYaw(0.0, 0.0, 0.0);
     publishTfFrame("/sdepth", ps, *br);
 
@@ -61,8 +61,8 @@ void publish_cam_frames()
     publishTfFrame("/trgb", ps, *br);
 
     ps.header.frame_id = "/trgb";
-    ps.pose.position.x = 0.04;
-    ps.pose.position.y = 0;
+    ps.pose.position.x = 0;//0.04;
+    ps.pose.position.y = -0.04;
     ps.pose.position.z = 0;
     ps.pose.orientation = tf::createQuaternionMsgFromRollPitchYaw(0.0, 0.0, 0.0);
     publishTfFrame("/tdepth", ps, *br);
