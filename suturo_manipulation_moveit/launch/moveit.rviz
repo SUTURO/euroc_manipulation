@@ -5,6 +5,7 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /MotionPlanning1
+        - /TF1
       Splitter Ratio: 0.74256
     Tree Height: 778
   - Class: rviz/Help
@@ -69,7 +70,7 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
-          gripper:
+          gp:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -171,7 +172,7 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
-          gripper:
+          gp:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -224,11 +225,15 @@ Visualization Manager:
           Value: true
         base_link:
           Value: true
+        blue_handle:
+          Value: true
         finger1:
           Value: true
         finger2:
           Value: true
-        gripper:
+        gp:
+          Value: true
+        green_cylinder:
           Value: true
         link1:
           Value: true
@@ -246,11 +251,15 @@ Visualization Manager:
           Value: true
         odom_combined:
           Value: true
+        plane:
+          Value: true
+        red_cube:
+          Value: true
       Marker Scale: 1
       Name: TF
       Show Arrows: true
       Show Axes: true
-      Show Names: true
+      Show Names: false
       Tree:
         odom_combined:
           base_link:
@@ -262,12 +271,28 @@ Visualization Manager:
                       link5:
                         link6:
                           link7:
-                            gripper:
+                            gp:
                               finger1:
                                 {}
                               finger2:
                                 {}
+          blue_handle:
+            {}
+          green_cylinder:
+            {}
+          plane:
+            {}
+          red_cube:
+            {}
       Update Interval: 0
+      Value: true
+    - Class: rviz/Marker
+      Enabled: true
+      Marker Topic: visualization_marker
+      Name: Marker
+      Namespaces:
+        mani: true
+      Queue Size: 100
       Value: true
   Enabled: true
   Global Options:
@@ -284,22 +309,22 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/XYOrbit
-      Distance: 2.9965
+      Distance: 0.948327
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.113567
-        Y: 0.10592
-        Z: 2.23518e-07
+        X: -0.974917
+        Y: 0.11482
+        Z: 3.93449e-07
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.509797
+      Pitch: 0.0897972
       Target Frame: base_link
       Value: XYOrbit (rviz)
-      Yaw: 5.65995
+      Yaw: 3.03491
     Saved: ~
 Window Geometry:
   Displays:
@@ -315,5 +340,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1615
-  X: 64
-  Y: -4
+  X: 65
+  Y: 24

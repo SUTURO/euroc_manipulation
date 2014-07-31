@@ -35,6 +35,9 @@ add_executable(telemetry_to_joint_state src/telemetry-to-joint-state.cpp)
 add_executable(arm_controller src/arm_controller.cpp)
 add_executable(gripper_controller src/gripper_controller.cpp)
 add_executable(spawn_planningscene src/spawn_planningscene.cpp)
+add_executable(publish_objects_tf_frames src/publish_objects_tf_frames.cpp)
+
+
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
@@ -42,6 +45,7 @@ add_executable(spawn_planningscene src/spawn_planningscene.cpp)
 add_dependencies(arm_controller ${catkin_EXPORTED_TARGETS})
 add_dependencies(gripper_controller ${catkin_EXPORTED_TARGETS})
 add_dependencies(spawn_planningscene ${catkin_EXPORTED_TARGETS})
+add_dependencies(publish_objects_tf_frames ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
 # target_link_libraries(state_publisher_node
@@ -60,6 +64,10 @@ target_link_libraries(gripper_controller
 )
 
 target_link_libraries(spawn_planningscene
+  ${catkin_LIBRARIES}
+)
+
+target_link_libraries(publish_objects_tf_frames
   ${catkin_LIBRARIES}
 )
 

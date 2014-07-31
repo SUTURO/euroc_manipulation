@@ -3,6 +3,19 @@
 #include <euroc_c2_msgs/Telemetry.h>
 #include <tf/transform_broadcaster.h>
 
+
+#include <moveit/planning_scene_monitor/planning_scene_monitor.h>
+#include <moveit/move_group_interface/move_group.h>
+#include <shape_tools/solid_primitive_dims.h>
+
+#include <moveit_msgs/GetPlanningScene.h>
+#include <moveit/move_group/capability_names.h>
+#include <moveit/planning_scene_monitor/current_state_monitor.h>
+
+#include <moveit/robot_model_loader/robot_model_loader.h>
+#include <moveit/planning_scene/planning_scene.h>
+#include <moveit/kinematic_constraints/utils.h>
+
 using namespace std;
 
 ros::Publisher joint_state_pub;
@@ -11,15 +24,7 @@ tf::TransformBroadcaster *br;
 
 // 'axis_x', 'axis_y', 'lwr_joint_1', 'lwr_joint_2', 'lwr_joint_3', 'lwr_joint_4', 'lwr_joint_5', 'lwr_joint_6', 'lwr_joint_7', 'gripper', 'cam_pan', 'cam_tilt'
 // string map_joint(string joint)
-// {
-//     if (joint == "lwr_joint_1") return "joint1";
-//     if (joint == "lwr_joint_2") return "joint2";
-//     if (joint == "lwr_joint_3") return "joint3";
-//     if (joint == "lwr_joint_4") return "joint4";
-//     if (joint == "lwr_joint_5") return "joint5";
-//     if (joint == "lwr_joint_6") return "joint6";
-//     if (joint == "lwr_joint_7") return "joint7";
-// }
+//
 
 void publishTfFrame(std::string frame_id, geometry_msgs::PoseStamped pose, tf::TransformBroadcaster br)
 {
@@ -100,6 +105,44 @@ void callback(const euroc_c2_msgs::Telemetry::ConstPtr &telemetry)
     publish_cam_frames();
 }
 
+void callback2(const euroc_c2_msgs::Telemetry::ConstPtr &telemetry)
+{
+
+}
+
+int getPlanningScene(ros::ServiceClient &ps_client, moveit_msgs::PlanningScene &ps)
+{
+    //create msg to get Objectnames and Objectgeometry from planningscene
+    moveit_msgs::GetPlanningScene msg;
+    msg.request.components.components = 1023;
+
+    //get planningscene
+
+    ps_client.call(msg);
+    if (ps_client.call(msg))
+    {
+        ps = msg.response.scene;
+    }
+    else
+    {
+        ROS_ERROR("Failed to call service to get planningscene.");
+        return 0;
+    }
+    return 1;
+}
+
+// int getObjects(ros::ServiceClient &ps_client, std::vector<moveit_msgs::CollisionObject> &cos)
+// {
+//     moveit_msgs::PlanningScene ps;
+//     if (!getPlanningScene(ps_client, ps))
+//     {
+//         ROS_ERROR_STREAM("Failed to get planningscene");
+//         return 0;
+//     }
+//     cos = ps.world.collision_objects;
+//     return 1;
+// }
+
 int main(int argc, char **argv)
 {
     ros::init(argc, argv, "telemetry_to_joint_state");
@@ -109,13 +152,35 @@ int main(int argc, char **argv)
     joint_state_pub = n.advertise < sensor_msgs::JointState > ( "/joint_states", 10 );
 
     ros::Subscriber js_sub = n.subscribe("/euroc_interface_node/telemetry", 1000, callback);
-    ROS_INFO_STREAM("hi");
+    ros::spinOnce();
+
+    ros::service::waitForService(move_group::GET_PLANNING_SCENE_SERVICE_NAME);
+    ros::ServiceClient ps_service_client = n.serviceClient<moveit_msgs::GetPlanningScene>(move_group::GET_PLANNING_SCENE_SERVICE_NAME);
 
     ros::spin();
-
+    // ros::WallDuration(1.0).sleep();
+    // std::vector<moveit_msgs::CollisionObject> cos;
+    // geometry_msgs::PoseStamped temp_pose;
+    // tf::TransformBroadcaster br2;
     // while (n.ok())
-    // {
-
+    // {   
+    //     ros::spinOnce();
+    //     // ROS_INFO_STREAM("muh");
+    //     if (getObjects(ps_service_client, cos))
+    //     {
+    //         // ROS_INFO_STREAM(cos.size());
+    //         for (std::vector<moveit_msgs::CollisionObject>::iterator co = cos.begin(); co != cos.end(); ++co)
+    //         {
+    //             if (co->primitive_poses.size() > 0)
+    //             {
+    //                 temp_pose.pose = co->primitive_poses[0];
+    //                 temp_pose.header = co->header;
+    //                 publishTfFrame(co->id, temp_pose, br2);
+    //             }
+    //         }
+    //     }
+    //     // ros::WallDuration(1.0).sleep();
+    //     ros::spinOnce();
     // }
 
     ros::waitForShutdown();
