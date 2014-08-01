@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/euroc_planning_manipulation.iml" filepath="$PROJECT_DIR$/.idea/euroc_planning_manipulation.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/euroc_planning_manipulation.iml" filepath="$PROJECT_DIR$/.idea/euroc_planning_manipulation.iml" />
     </modules>
   </component>
 </project>
