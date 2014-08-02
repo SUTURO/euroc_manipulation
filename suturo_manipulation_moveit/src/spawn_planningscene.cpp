@@ -150,13 +150,13 @@ void spawn_task1_v1(ros::Publisher pub_co)
     pub_co.publish(co);
 
     // co = make_plane("plane");
-    co = make_box("ground", 0, 0, -0.005, 2, 2, 0, 0, 0, 0);
+    // co = make_box("ground", 0, 0, -0.005, 2, 2, 0, 0, 0, 0);
 
-    co.operation = moveit_msgs::CollisionObject::REMOVE;
-    pub_co.publish(co);
+    // co.operation = moveit_msgs::CollisionObject::REMOVE;
+    // pub_co.publish(co);
 
-    co.operation = moveit_msgs::CollisionObject::ADD;
-    pub_co.publish(co);
+    // co.operation = moveit_msgs::CollisionObject::ADD;
+    // pub_co.publish(co);
 
     //add Cylinder
     co = make_cylinder("green_cylinder", -0.5, 0.1, 0.051, 0.1, 0.02, -3.1415, 0, 0.8);

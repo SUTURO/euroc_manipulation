@@ -245,8 +245,6 @@
     <limit velocity="1.6" effort="150" lower="-2.96705972839" upper="2.96705972839"/>
   </joint>
 
-
-
   <link name="gp">
     <inertial>
       <mass value="1.2"/>
@@ -266,6 +264,22 @@
       </geometry>
     </visual>
   </link>
+
+  <link name="trgb" />
+
+  <joint type="fixed" name="trgb_joint">
+    <parent link="gp"/>
+    <child link="trgb"/>
+    <origin rpy="-1.5708 1.5708 0" xyz="-0.02 0.0565 -0.063"/>
+  </joint>
+
+  <link name="tdepth" />
+
+  <joint type="fixed" name="tdepth_joint">
+    <parent link="trgb"/>
+    <child link="tdepth"/>
+    <origin rpy="0 0 0" xyz="0 -0.04 0"/>
+  </joint>
 
   <joint type="fixed" name="gripper_joint">
     <parent link="link7"/>

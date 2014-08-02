@@ -34,7 +34,7 @@
         <joint name="joint_before_finger2" value="0.035" />
     </group_state>
     <group_state name="scan_pose1" group="arm">
-        <joint name="lwr_joint_1" value="-2.82792480512667"/>
+        <joint name="lwr_joint_1" value="-2.9670597"/>
         <joint name="lwr_joint_2" value="1.022521626960062"/>
         <joint name="lwr_joint_3" value="0.041122399367000066"/>
         <joint name="lwr_joint_4" value="1.9881264555823748"/>

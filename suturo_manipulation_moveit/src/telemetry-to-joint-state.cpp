@@ -56,21 +56,6 @@ void publish_cam_frames()
     ps.pose.position.y = -0.04;
     // ps.pose.orientation = tf::createQuaternionMsgFromRollPitchYaw(0.0, 0.0, 0.0);
     publishTfFrame("/sdepth", ps, *br);
-
-    ps.header.frame_id = "/gp";
-    ps.pose.position.x = -0.02;
-    ps.pose.position.y = 0.0565;
-    ps.pose.position.z = -0.063;
-    ps.pose.orientation = tf::createQuaternionMsgFromRollPitchYaw(-1.5708,  1.5708,  0.0);
-    // ps.pose.orientation = tf::createQuaternionMsgFromRollPitchYaw(M_PI, 0.0, 0.0);
-    publishTfFrame("/trgb", ps, *br);
-
-    ps.header.frame_id = "/trgb";
-    ps.pose.position.x = 0;//0.04;
-    ps.pose.position.y = -0.04;
-    ps.pose.position.z = 0;
-    ps.pose.orientation = tf::createQuaternionMsgFromRollPitchYaw(0.0, 0.0, 0.0);
-    publishTfFrame("/tdepth", ps, *br);
 }
 
 void callback(const euroc_c2_msgs::Telemetry::ConstPtr &telemetry)
@@ -105,33 +90,6 @@ void callback(const euroc_c2_msgs::Telemetry::ConstPtr &telemetry)
     publish_cam_frames();
 }
 
-void callback2(const euroc_c2_msgs::Telemetry::ConstPtr &telemetry)
-{
-
-}
-
-int getPlanningScene(ros::ServiceClient &ps_client, moveit_msgs::PlanningScene &ps)
-{
-    //create msg to get Objectnames and Objectgeometry from planningscene
-    moveit_msgs::GetPlanningScene msg;
-    msg.request.components.components = 1023;
-
-    //get planningscene
-
-    ps_client.call(msg);
-    if (ps_client.call(msg))
-    {
-        ps = msg.response.scene;
-    }
-    else
-    {
-        ROS_ERROR("Failed to call service to get planningscene.");
-        return 0;
-    }
-    return 1;
-}
-
-
 int main(int argc, char **argv)
 {
     ros::init(argc, argv, "telemetry_to_joint_state");
@@ -141,38 +99,8 @@ int main(int argc, char **argv)
     joint_state_pub = n.advertise < sensor_msgs::JointState > ( "/joint_states", 10 );
 
     ros::Subscriber js_sub = n.subscribe("/euroc_interface_node/telemetry", 1000, callback);
-    // ros::spinOnce();
-
-    // ros::service::waitForService(move_group::GET_PLANNING_SCENE_SERVICE_NAME);
-    // ros::ServiceClient ps_service_client = n.serviceClient<moveit_msgs::GetPlanningScene>(move_group::GET_PLANNING_SCENE_SERVICE_NAME);
 
     ros::spin();
-    // ros::WallDuration(1.0).sleep();
-    // std::vector<moveit_msgs::CollisionObject> cos;
-    // geometry_msgs::PoseStamped temp_pose;
-    // tf::TransformBroadcaster br2;
-    // while (n.ok())
-    // {   
-    //     ros::spinOnce();
-    //     // ROS_INFO_STREAM("muh");
-    //     if (getObjects(ps_service_client, cos))
-    //     {
-    //         // ROS_INFO_STREAM(cos.size());
-    //         for (std::vector<moveit_msgs::CollisionObject>::iterator co = cos.begin(); co != cos.end(); ++co)
-    //         {
-    //             if (co->primitive_poses.size() > 0)
-    //             {
-    //                 temp_pose.pose = co->primitive_poses[0];
-    //                 temp_pose.header = co->header;
-    //                 publishTfFrame(co->id, temp_pose, br2);
-    //             }
-    //         }
-    //     }
-    //     // ros::WallDuration(1.0).sleep();
-    //     ros::spinOnce();
-    // }
-
-    // ros::waitForShutdown();
     return 0;
 }
 
