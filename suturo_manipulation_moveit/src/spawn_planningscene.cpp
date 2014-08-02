@@ -150,7 +150,7 @@ void spawn_task1_v1(ros::Publisher pub_co)
     pub_co.publish(co);
 
     // co = make_plane("plane");
-    co = make_box("ground", 0, 0, -0.05, 2, 2, 0, 0, 0, 0);
+    co = make_box("ground", 0, 0, -0.005, 2, 2, 0, 0, 0, 0);
 
     co.operation = moveit_msgs::CollisionObject::REMOVE;
     pub_co.publish(co);

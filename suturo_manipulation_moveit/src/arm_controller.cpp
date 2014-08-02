@@ -14,11 +14,10 @@ typedef actionlib::ActionServer<control_msgs::FollowJointTrajectoryAction> Serve
 ros::ServiceClient move_along_joint_path_client;
 
 void goal_call_back(Server::GoalHandle gh)
-{
-    Server::GoalHandle current_gh_ = gh;
-    current_gh_.setAccepted();
-  
-
+{ 
+    ROS_ERROR_STREAM("GOAL");
+    // ros::WallDuration(20.0).sleep();
+    gh.setAccepted();
     control_msgs::FollowJointTrajectoryGoal goal = *gh.getGoal();
     euroc_c2_msgs::MoveAlongJointPath move_along_joint_path_srv;
     move_along_joint_path_srv.request.joint_names = goal.trajectory.joint_names;
@@ -45,6 +44,10 @@ void goal_call_back(Server::GoalHandle gh)
 
     move_along_joint_path_client.call(move_along_joint_path_srv);
     std::string &move_error_message = move_along_joint_path_srv.response.error_message;
+    // actionlib_msgs::GoalStatus muh = gh.getGoalStatus();
+    // if (muh.status == actionlib_msgs::GoalStatus::PREEMPTED ||
+    //     muh.status == actionlib_msgs::GoalStatus::RECALLED)
+    //     return;
     if (!move_error_message.empty())
     {
         std::cout << "Move failed: " + move_error_message << std::endl;
@@ -56,6 +59,8 @@ void goal_call_back(Server::GoalHandle gh)
 void cancel_call_back(Server::GoalHandle gh)
 {
     ROS_ERROR_STREAM("cancel");
+    gh.setCanceled();
+    ROS_ERROR_STREAM(gh.getGoalStatus());
 }
 
 int main(int argc, char **argv)
@@ -72,7 +77,7 @@ int main(int argc, char **argv)
     // Server server_arm(n, "/arm_controller/follow_joint_trajectory", boost::bind(&follow_joint_trajectory, _1, &n, &server_arm), false);
     Server arm_server(n, "/arm_controller/follow_joint_trajectory", false   );
 
-    arm_server.registerGoalCallback(&cancel_call_back);
+    arm_server.registerCancelCallback(&cancel_call_back);
     arm_server.registerGoalCallback(&goal_call_back);
         // boost::bind(&goal_call_back, _1),
         // boost::bind(&cancel_call_back, _1),
