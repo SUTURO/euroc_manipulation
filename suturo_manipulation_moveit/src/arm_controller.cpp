@@ -34,8 +34,8 @@ void goal_call_back(Server::GoalHandle gh)
     for (unsigned int i = 0; i < nr_lwr_joints; ++i)
     {
         euroc_c2_msgs::Limits &limits = move_along_joint_path_srv.request.joint_limits[i];
-        limits.max_velocity = 20 * M_PI / 180.0;
-        limits.max_acceleration = 400 * M_PI / 180.0;
+        limits.max_velocity = 15 * M_PI / 180.0;
+        limits.max_acceleration = 350 * M_PI / 180.0;
     }
 
     // move_along_joint_path_srv.request.tcp_limits.resize(nr_lwr_joints);
