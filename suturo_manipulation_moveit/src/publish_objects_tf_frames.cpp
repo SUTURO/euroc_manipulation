@@ -179,7 +179,7 @@ int main(int argc, char **argv)
         //publish cam_frame
         // publishTfFrame("webcam", cam_pose, transform, br);
 
-        ros::WallDuration(1.0).sleep();
+        ros::WallDuration(0.1).sleep();
     }
 
     return 0;

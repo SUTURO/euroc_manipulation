@@ -14,7 +14,7 @@ typedef actionlib::ActionServer<control_msgs::FollowJointTrajectoryAction> Serve
 ros::ServiceClient move_along_joint_path_client;
 
 void goal_call_back(Server::GoalHandle gh)
-{ 
+{
     gh.setAccepted();
     control_msgs::FollowJointTrajectoryGoal goal = *gh.getGoal();
     euroc_c2_msgs::MoveAlongJointPath move_along_joint_path_srv;
@@ -34,15 +34,29 @@ void goal_call_back(Server::GoalHandle gh)
     for (unsigned int i = 0; i < nr_lwr_joints; ++i)
     {
         euroc_c2_msgs::Limits &limits = move_along_joint_path_srv.request.joint_limits[i];
-        limits.max_velocity = 30 * M_PI / 180.0;
-        limits.max_acceleration = 450 * M_PI / 180.0;
+        limits.max_velocity = 20 * M_PI / 180.0;
+        limits.max_acceleration = 400 * M_PI / 180.0;
     }
+
+    // move_along_joint_path_srv.request.tcp_limits.resize(nr_lwr_joints);
+
+    // euroc_c2_msgs::Limits limits_trans;
+    // limits_trans.max_velocity = 20 * M_PI / 180.0;
+    // limits_trans.max_acceleration = 450 * M_PI / 180.0;
+
+    // euroc_c2_msgs::Limits limits_rota;
+    // limits_rota.max_velocity = 20 * M_PI / 180.0;
+    // limits_rota.max_acceleration = 450 * M_PI / 180.0;
+
+    // move_along_joint_path_srv.request.tcp_limits.translational = limits_trans;
+    // move_along_joint_path_srv.request.tcp_limits.rotational = limits_rota;
+
 
     move_along_joint_path_client.call(move_along_joint_path_srv);
     std::string &move_error_message = move_along_joint_path_srv.response.error_message;
     if (!move_error_message.empty())
     {
-        std::cout << "Move failed: " + move_error_message << std::endl;
+        ROS_ERROR_STREAM("Move failed: " + move_error_message);
         gh.setAborted();
     }
     gh.setSucceeded();
