@@ -29,27 +29,42 @@ void goal_call_back(Server::GoalHandle gh)
         move_along_joint_path_srv.request.path.push_back(configuration);
     }
 
+    // euroc_c2_msgs::Configuration configuration;
+    // configuration.q = goal.trajectory.points.begin()->positions;
+    // move_along_joint_path_srv.request.path.push_back(configuration);
+
+    // configuration;
+    // configuration.q = (goal.trajectory.points.end()-1)->positions;
+    // move_along_joint_path_srv.request.path.push_back(configuration);
 
     move_along_joint_path_srv.request.joint_limits.resize(nr_lwr_joints);
     for (unsigned int i = 0; i < nr_lwr_joints; ++i)
     {
         euroc_c2_msgs::Limits &limits = move_along_joint_path_srv.request.joint_limits[i];
-        limits.max_velocity = 15 * M_PI / 180.0;
-        limits.max_acceleration = 350 * M_PI / 180.0;
+        limits.max_velocity = 20 * M_PI / 180.0;
+        limits.max_acceleration = 400 * M_PI / 180.0;
     }
+
+    // euroc_c2_msgs::Limits &limits = move_along_joint_path_srv.request.joint_limits[5];
+    // limits.max_velocity = 10 * M_PI / 180.0;
+    // limits.max_acceleration = 1000 * M_PI / 180.0;
+
+    // euroc_c2_msgs::Limits &limits = move_along_joint_path_srv.request.joint_limits[6];
+    // limits.max_velocity = 10 * M_PI / 180.0;
+    // limits.max_acceleration = 1000 * M_PI / 180.0;
 
     // move_along_joint_path_srv.request.tcp_limits.resize(nr_lwr_joints);
 
-    // euroc_c2_msgs::Limits limits_trans;
-    // limits_trans.max_velocity = 20 * M_PI / 180.0;
-    // limits_trans.max_acceleration = 450 * M_PI / 180.0;
+    euroc_c2_msgs::Limits limits_trans;
+    limits_trans.max_velocity = 0.165;
+    limits_trans.max_acceleration = 4;
 
-    // euroc_c2_msgs::Limits limits_rota;
-    // limits_rota.max_velocity = 20 * M_PI / 180.0;
-    // limits_rota.max_acceleration = 450 * M_PI / 180.0;
+    euroc_c2_msgs::Limits limits_rota;
+    limits_rota.max_velocity = 10 * M_PI / 180.0;
+    limits_rota.max_acceleration = 100 * M_PI / 180.0;
 
-    // move_along_joint_path_srv.request.tcp_limits.translational = limits_trans;
-    // move_along_joint_path_srv.request.tcp_limits.rotational = limits_rota;
+    move_along_joint_path_srv.request.tcp_limits.translational = limits_trans;
+    move_along_joint_path_srv.request.tcp_limits.rotational = limits_rota;
 
 
     move_along_joint_path_client.call(move_along_joint_path_srv);

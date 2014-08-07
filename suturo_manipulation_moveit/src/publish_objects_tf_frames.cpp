@@ -84,7 +84,6 @@ int getObjects(ros::ServiceClient &ps_client, std::vector<moveit_msgs::Collision
     moveit_msgs::PlanningScene ps;
     if (!getPlanningScene(ps_client, ps))
     {
-        ROS_ERROR_STREAM("Failed to get planningscene");
         return 0;
     }
     cos = ps.world.collision_objects;
@@ -96,7 +95,6 @@ int getAttachedObjects(ros::ServiceClient &ps_client, std::vector<moveit_msgs::A
     moveit_msgs::PlanningScene ps;
     if (!getPlanningScene(ps_client, ps))
     {
-        ROS_ERROR_STREAM("Failed to get planningscene");
         return 0;
     }
     cos = ps.robot_state.attached_collision_objects;
@@ -125,12 +123,12 @@ int main(int argc, char **argv)
 
     ros::WallDuration(1.0).sleep();
 
-    while (n.ok())
+    while (getObjects(ps_service_client, cos) && getAttachedObjects(ps_service_client, acos))
     {
         //publish tf frame in every collisionobject
 
-        if (getObjects(ps_service_client, cos))
-        {
+        // if ()
+        // {
             // ROS_INFO_STREAM(cos.size());
             for (std::vector<moveit_msgs::CollisionObject>::iterator co = cos.begin(); co != cos.end(); ++co)
             {
@@ -141,10 +139,10 @@ int main(int argc, char **argv)
                     publishTfFrame(co->id, temp_pose, br);
                 }
             }
-        }
+        // }
 
-        if (getAttachedObjects(ps_service_client, acos))
-        {
+        // if (getAttachedObjects(ps_service_client, acos))
+        // {
             for (std::vector<moveit_msgs::AttachedCollisionObject>::iterator co = acos.begin(); co != acos.end(); ++co)
             {
                 if (co->object.primitive_poses.size() > 0)
@@ -154,7 +152,7 @@ int main(int argc, char **argv)
                     publishTfFrame(co->object.id, temp_pose, br);
                 }
             }
-        }
+        // }
 
         //publish tf frame in every attachedobject
         // for (std::vector<moveit_msgs::AttachedCollisionObject>::iterator aco = acos.begin(); aco != acos.end(); ++aco)
