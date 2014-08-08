@@ -24,7 +24,7 @@
   </link>
 
   <joint type="fixed" name="base_joint">
-    <parent link="base_link"/>
+    <parent link="lwr_base_y"/>
     <child link="lwr_base"/>
   </joint>
 
@@ -359,4 +359,38 @@
     <axis xyz="1.0 0 0"/>
     <limit velocity="1.6" effort="150" lower="-0.035" upper="0"/>
   </joint>
+
+
+  <link name="lwr_base_x">
+    <inertial>
+      <mass value="2.7"/>
+      <origin rpy="0 0 0" xyz="0 0 0.015"/>
+      <inertia ixx="0.00603" ixy="0" ixz="0" iyy="0.00603" iyz="0" izz="0.006615"/>
+    </inertial>
+  </link>
+
+  <link name="lwr_base_y">
+    <inertial>
+      <mass value="2.7"/>
+      <origin rpy="0 0 0" xyz="0 0 0.035"/>
+      <inertia ixx="0.00603" ixy="0" ixz="0" iyy="0.00603" iyz="0" izz="0.006615"/>
+    </inertial>
+  </link>
+
+  <joint type="prismatic" name="base_axis_x">
+    <parent link="base_link"/>
+    <child link="lwr_base_x"/>
+    <origin rpy="0 0 0" xyz="0 0 0.015"/>
+    <axis xyz="1.0 0 0"/>
+    <limit velocity="1.6" effort="150" lower="-1" upper="1"/>
+  </joint>
+
+  <joint type="prismatic" name="base_axis_y">
+    <parent link="lwr_base_x"/>
+    <child link="lwr_base_y"/>
+    <origin rpy="0 0 0" xyz="0 0 0.035"/>
+    <axis xyz="0 1.0 0"/>
+    <limit velocity="1.6" effort="150" lower="-1" upper="1"/>
+  </joint>
+
 </robot>
