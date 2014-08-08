@@ -38,6 +38,10 @@ add_executable(gripper_controller src/gripper_controller.cpp)
 add_executable(spawn_planningscene src/spawn_planningscene.cpp)
 add_executable(publish_objects_tf_frames src/publish_objects_tf_frames.cpp)
 
+target_link_libraries(spawn_planningscene
+  ${catkin_LIBRARIES}
+  yaml-cpp
+  )
 
 
 ## Add cmake target dependencies of the executable/library

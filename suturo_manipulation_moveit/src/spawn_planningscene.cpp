@@ -8,12 +8,80 @@
 
 #include <moveit_msgs/AttachedCollisionObject.h>
 #include <moveit_msgs/CollisionObject.h>
+#include <fstream>
+#include <yaml-cpp/yaml.h>
+
 
 static const std::string ROBOT_DESCRIPTION = "robot_description";
 
 using namespace std;
 
-moveit_msgs::CollisionObject make_box(string name, double posx, double posy, double posz, double dx, double dy, double dz, double r, double p, double y)
+class SpawnPlanningscene
+{
+public:
+  struct Pose
+  {
+    double x, y, z, r, p, YAWR;
+  };
+  struct Cylinder
+  {
+      double height,radius;
+  };
+  struct Box
+  {
+      double width,height,depth;
+  };
+  enum PublishType
+  {
+    BOX, PLANE, CYLINDER, HANDLE
+  };
+  SpawnPlanningscene(ros::Publisher* pub_co);
+  void publish(PublishType type, string name);
+  void spawnPlane();
+  void loadYaml(string yamlfile);
+
+private:
+  moveit_msgs::CollisionObject make_box(string name, Pose pose, Box dim);
+  moveit_msgs::CollisionObject make_plane(string name);
+  moveit_msgs::CollisionObject make_cylinder(string name, Pose pose, Cylinder dim);
+  moveit_msgs::CollisionObject make_handle(string name, Pose pose);
+  std::auto_ptr<YAML::Node> objectsPublic;
+  std::auto_ptr<YAML::Node> objectsInternal;
+  ros::Publisher* pub_co;
+
+};
+
+void operator >>(const YAML::Node& node, SpawnPlanningscene::Pose& p)
+{
+  node[0] >> p.x;
+  node[1] >> p.y;
+  node[2] >> p.z;
+  node[3] >> p.r;
+  node[4] >> p.p;
+  node[5] >> p.YAWR;
+}
+
+void operator >>(const YAML::Node& node, SpawnPlanningscene::Box& box)
+{
+  const YAML::Node& s = node["shape"][0]["size"];
+  s[0] >> box.width;
+  s[1] >> box.height;
+  s[2] >> box.depth;
+}
+
+
+void operator >>(const YAML::Node& node, SpawnPlanningscene::Cylinder& box)
+{
+  node["shape"][0]["radius"] >> box.radius;
+  node["shape"][0]["length"] >> box.height;
+}
+
+SpawnPlanningscene::SpawnPlanningscene(ros::Publisher* pub_co)
+{
+  this->pub_co = pub_co;
+}
+
+moveit_msgs::CollisionObject SpawnPlanningscene::make_box(string name, Pose pose, Box dim)
 {
     moveit_msgs::CollisionObject co;
     co.header.stamp = ros::Time::now();
@@ -26,17 +94,17 @@ moveit_msgs::CollisionObject make_box(string name, double posx, double posy, dou
 
     co.id = name;
 
-    co.primitives[0].dimensions[shape_msgs::SolidPrimitive::BOX_X] = dx;
-    co.primitives[0].dimensions[shape_msgs::SolidPrimitive::BOX_Y] = dy;
-    co.primitives[0].dimensions[shape_msgs::SolidPrimitive::BOX_Z] = dz;
-    co.primitive_poses[0].position.x = posx;
-    co.primitive_poses[0].position.y = posy;
-    co.primitive_poses[0].position.z = posz;
-    co.primitive_poses[0].orientation = tf::createQuaternionMsgFromRollPitchYaw(r, p, y);
+    co.primitives[0].dimensions[shape_msgs::SolidPrimitive::BOX_X] = dim.height;
+    co.primitives[0].dimensions[shape_msgs::SolidPrimitive::BOX_Y] = dim.width;
+    co.primitives[0].dimensions[shape_msgs::SolidPrimitive::BOX_Z] = dim.depth;
+    co.primitive_poses[0].position.x = pose.x;
+    co.primitive_poses[0].position.y = pose.y;
+    co.primitive_poses[0].position.z = pose.z;
+    co.primitive_poses[0].orientation = tf::createQuaternionMsgFromRollPitchYaw(pose.r, pose.p, pose.YAWR);
     return co;
 }
 
-moveit_msgs::CollisionObject make_plane(string name)
+moveit_msgs::CollisionObject SpawnPlanningscene::make_plane(string name)
 {
     moveit_msgs::CollisionObject co;
     co.header.stamp = ros::Time::now();
@@ -66,7 +134,7 @@ moveit_msgs::CollisionObject make_plane(string name)
     return co;
 }
 
-moveit_msgs::CollisionObject make_cylinder(string name, double posx, double posy, double posz, double dh, double dr, double r, double p, double y)
+moveit_msgs::CollisionObject SpawnPlanningscene::make_cylinder(string name, Pose pose, Cylinder dim)
 {
     moveit_msgs::CollisionObject co;
     co.header.stamp = ros::Time::now();
@@ -79,16 +147,16 @@ moveit_msgs::CollisionObject make_cylinder(string name, double posx, double posy
 
     co.id = name;
 
-    co.primitives[0].dimensions[shape_msgs::SolidPrimitive::CYLINDER_HEIGHT] = dh;
-    co.primitives[0].dimensions[shape_msgs::SolidPrimitive::CYLINDER_RADIUS] = dr;
-    co.primitive_poses[0].position.x = posx;
-    co.primitive_poses[0].position.y = posy;
-    co.primitive_poses[0].position.z = posz;
-    co.primitive_poses[0].orientation = tf::createQuaternionMsgFromRollPitchYaw(r, p, y);
+    co.primitives[0].dimensions[shape_msgs::SolidPrimitive::CYLINDER_HEIGHT] = dim.height;
+    co.primitives[0].dimensions[shape_msgs::SolidPrimitive::CYLINDER_RADIUS] = dim.radius;
+    co.primitive_poses[0].position.x = pose.x;
+    co.primitive_poses[0].position.y = pose.y;
+    co.primitive_poses[0].position.z = pose.z;
+    co.primitive_poses[0].orientation = tf::createQuaternionMsgFromRollPitchYaw(pose.r, pose.p, pose.YAWR);
     return co;
 }
 
-moveit_msgs::CollisionObject make_handle(string name, double posx, double posy, double posz, double r, double p, double y)
+moveit_msgs::CollisionObject SpawnPlanningscene::make_handle(string name, Pose pose)
 {
     moveit_msgs::CollisionObject co;
     co.header.stamp = ros::Time::now();
@@ -106,10 +174,10 @@ moveit_msgs::CollisionObject make_handle(string name, double posx, double posy, 
     co.primitives[1].dimensions[shape_msgs::SolidPrimitive::BOX_Z] = 0.05;
     co.primitives[1].dimensions[shape_msgs::SolidPrimitive::BOX_Y] = 0.05;
     co.primitives[1].dimensions[shape_msgs::SolidPrimitive::BOX_X] = 0.05;
-    co.primitive_poses[1].position.x = posx;//0.0681482099;//0.16118567395 posx + 0;
-    co.primitive_poses[1].position.y = posy;//-0.16118567395;// posy + 0.35;
-    co.primitive_poses[1].position.z = posz;//;//0.16118567395 posz + 0;
-    co.primitive_poses[1].orientation = tf::createQuaternionMsgFromRollPitchYaw(r, p, y);
+    co.primitive_poses[1].position.x = pose.x;//0.0681482099;//0.16118567395 posx + 0;
+    co.primitive_poses[1].position.y = pose.y;//-0.16118567395;// posy + 0.35;
+    co.primitive_poses[1].position.z = pose.z;//;//0.16118567395 posz + 0;
+    co.primitive_poses[1].orientation = tf::createQuaternionMsgFromRollPitchYaw(pose.r, pose.p, pose.YAWR);
 
 
     co.primitives[0].dimensions[shape_msgs::SolidPrimitive::CYLINDER_HEIGHT] = 0.3;
@@ -117,7 +185,7 @@ moveit_msgs::CollisionObject make_handle(string name, double posx, double posy, 
     co.primitive_poses[0].position.x = co.primitive_poses[1].position.x + -0.0681482099;// + 0;
     co.primitive_poses[0].position.y = co.primitive_poses[1].position.y + 0.16118567395;// + 0.175;
     co.primitive_poses[0].position.z = co.primitive_poses[1].position.z + 0;
-    co.primitive_poses[0].orientation = tf::createQuaternionMsgFromRollPitchYaw(r, p, y);
+    co.primitive_poses[0].orientation = tf::createQuaternionMsgFromRollPitchYaw(pose.r, pose.p, pose.YAWR);
 
 
 
@@ -129,70 +197,70 @@ moveit_msgs::CollisionObject make_handle(string name, double posx, double posy, 
     co.primitive_poses[2].position.x = co.primitive_poses[0].position.x + -0.0681482099;//0.16118567395 posx + 0;
     co.primitive_poses[2].position.y = co.primitive_poses[0].position.y + 0.16118567395;// posy + 0.35;
     co.primitive_poses[2].position.z = co.primitive_poses[0].position.z + 0;//0.16118567395 posz + 0;
-    co.primitive_poses[2].orientation = tf::createQuaternionMsgFromRollPitchYaw(r, p, y);
+    co.primitive_poses[2].orientation = tf::createQuaternionMsgFromRollPitchYaw(pose.r, pose.p, pose.YAWR);
     return co;
 }
 
-void spawn_task1_v1(ros::Publisher pub_co)
+void SpawnPlanningscene::publish(PublishType type, string name)
 {
+  moveit_msgs::CollisionObject co;
+  Pose pose;
+  switch (type)
+  {
+    case BOX:
+      Box box;
+      (*objectsPublic)[name.c_str()] >> box;
+      (*objectsInternal)[name.c_str()]["start_pose"] >> pose;
+      co = make_box(name, pose, box);
+      break;
+    case PLANE:
+      co = make_plane(name);
+      break;
+    case CYLINDER:
+      Cylinder cylinder;
+      (*objectsPublic)[name.c_str()] >> cylinder;
+      (*objectsInternal)[name.c_str()]["start_pose"] >> pose;
+      co = make_cylinder(name, pose, cylinder);
+      break;
+    case HANDLE:
+      (*objectsInternal)[name.c_str()]["start_pose"] >> pose;
+      co = make_handle(name, pose);
+      break;
+  }
+  co.operation = moveit_msgs::CollisionObject::REMOVE;
+  pub_co->publish(co);
 
-
-    ros::WallDuration(0.5).sleep();
-
-    moveit_msgs::CollisionObject co;
-    //add box
-    co = make_box("red_cube", -0.3, -0.4, 0.03, 0.05, 0.05, 0.05, 0, 0, 0);
-
-    co.operation = moveit_msgs::CollisionObject::REMOVE;
-    pub_co.publish(co);
-
-    co.operation = moveit_msgs::CollisionObject::ADD;
-    pub_co.publish(co);
-
-    // co = make_plane("plane");
-    // co = make_box("ground", 0, 0, -0.005, 2, 2, 0, 0, 0, 0);
-
-    // co.operation = moveit_msgs::CollisionObject::REMOVE;
-    // pub_co.publish(co);
-
-    // co.operation = moveit_msgs::CollisionObject::ADD;
-    // pub_co.publish(co);
-
-    //add Cylinder
-    co = make_cylinder("green_cylinder", -0.5, 0.1, 0.051, 0.1, 0.02, -3.1415, 0, 0.8);
-
-    co.operation = moveit_msgs::CollisionObject::REMOVE;
-    pub_co.publish(co);
-
-    co.operation = moveit_msgs::CollisionObject::ADD;
-    pub_co.publish(co);
-
-    co = make_handle("blue_handle", 0, 0.5, 0.03, -1.57, 0, 0.4);
-
-    co.operation = moveit_msgs::CollisionObject::REMOVE;
-    pub_co.publish(co);
-
-    co.operation = moveit_msgs::CollisionObject::ADD;
-    pub_co.publish(co);
-
-
-    //   co.id = "blue_handle";
-    // co.operation = moveit_msgs::CollisionObject::REMOVE;
-    // pub_co.publish(co);
-
-    // // add table
-    // co.operation = moveit_msgs::CollisionObject::ADD;
-    // co.primitives[0].dimensions[shape_msgs::SolidPrimitive::BOX_X] = 0.75;
-    // co.primitives[0].dimensions[shape_msgs::SolidPrimitive::BOX_Y] = 1.8;
-    // co.primitives[0].dimensions[shape_msgs::SolidPrimitive::BOX_Z] = tischposiZ;
-    // co.primitive_poses[0].position.x = 0.85;
-    // co.primitive_poses[0].position.y = 0;
-    // co.primitive_poses[0].position.z = tischposiZ/2;
-    // co.primitive_poses[0].orientation = tf::createQuaternionMsgFromRollPitchYaw(0, 0, 0);
-    // pub_co.publish(co);
-
-    ros::WallDuration(0.5).sleep();
+  co.operation = moveit_msgs::CollisionObject::ADD;
+  pub_co->publish(co);
 }
+
+void SpawnPlanningscene::loadYaml(string yamlfile)
+{
+  ifstream filestream(yamlfile.c_str());
+  YAML::Parser parser(filestream);
+  YAML::Node doc;
+  parser.GetNextDocument(doc);
+  objectsPublic = doc["public_description"]["objects"].Clone();
+  objectsInternal = doc["internal_description"]["objects"].Clone();
+  filestream.close();
+}
+
+void SpawnPlanningscene::spawnPlane()
+{
+//  publish(SpawnPlanningscene::PLANE, "plane");
+
+// or
+
+//  Pose p = {0, 0, -0.005, 0, 0, 0};
+//  Box b = {2, 2, 0};
+//  moveit_msgs::CollisionObject co = make_box("ground", p, b);
+//  co.operation = moveit_msgs::CollisionObject::REMOVE;
+//  pub_co->publish(co);
+//
+//  co.operation = moveit_msgs::CollisionObject::ADD;
+//  pub_co->publish(co);
+}
+
 
 int main(int argc, char **argv)
 {
@@ -203,7 +271,13 @@ int main(int argc, char **argv)
     ros::NodeHandle nh;
 
     ros::Publisher pub_co = nh.advertise<moveit_msgs::CollisionObject>("collision_object", 10);
-    spawn_task1_v1(pub_co);
+    SpawnPlanningscene sps(&pub_co);
+    sps.loadYaml("/opt/euroc_c2s1/scenes/task1_v1.yml");
+    ros::WallDuration(0.5).sleep();
+    sps.publish(SpawnPlanningscene::BOX, "red_cube");
+    sps.publish(SpawnPlanningscene::CYLINDER, "green_cylinder");
+    sps.publish(SpawnPlanningscene::HANDLE, "blue_handle");
+    ros::WallDuration(0.5).sleep();
 
     ROS_INFO_STREAM("finish");
     // ros::waitForShutdown();
