@@ -12,3 +12,7 @@ controller_list:
     joints:
       - joint_before_finger1
       - joint_before_finger2
+  - name: fake_base_controller
+    joints:
+      - base_axis_x
+      - base_axis_y
