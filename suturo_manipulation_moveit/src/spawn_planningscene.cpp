@@ -21,7 +21,7 @@ class SpawnPlanningscene
 public:
   struct Pose
   {
-    double x, y, z, r, p, YAWR;
+    double x, y, z, roll, pitch, yaw;
   };
   struct Cylinder
   {
@@ -56,9 +56,9 @@ void operator >>(const YAML::Node& node, SpawnPlanningscene::Pose& p)
   node[0] >> p.x;
   node[1] >> p.y;
   node[2] >> p.z;
-  node[3] >> p.r;
-  node[4] >> p.p;
-  node[5] >> p.YAWR;
+  node[3] >> p.roll;
+  node[4] >> p.pitch;
+  node[5] >> p.yaw;
 }
 
 void operator >>(const YAML::Node& node, SpawnPlanningscene::Box& box)
@@ -100,7 +100,7 @@ moveit_msgs::CollisionObject SpawnPlanningscene::make_box(string name, Pose pose
     co.primitive_poses[0].position.x = pose.x;
     co.primitive_poses[0].position.y = pose.y;
     co.primitive_poses[0].position.z = pose.z;
-    co.primitive_poses[0].orientation = tf::createQuaternionMsgFromRollPitchYaw(pose.r, pose.p, pose.YAWR);
+    co.primitive_poses[0].orientation = tf::createQuaternionMsgFromRollPitchYaw(pose.roll, pose.pitch, pose.yaw);
     return co;
 }
 
@@ -152,7 +152,7 @@ moveit_msgs::CollisionObject SpawnPlanningscene::make_cylinder(string name, Pose
     co.primitive_poses[0].position.x = pose.x;
     co.primitive_poses[0].position.y = pose.y;
     co.primitive_poses[0].position.z = pose.z;
-    co.primitive_poses[0].orientation = tf::createQuaternionMsgFromRollPitchYaw(pose.r, pose.p, pose.YAWR);
+    co.primitive_poses[0].orientation = tf::createQuaternionMsgFromRollPitchYaw(pose.roll, pose.pitch, pose.yaw);
     return co;
 }
 
@@ -177,7 +177,7 @@ moveit_msgs::CollisionObject SpawnPlanningscene::make_handle(string name, Pose p
     co.primitive_poses[1].position.x = pose.x;//0.0681482099;//0.16118567395 posx + 0;
     co.primitive_poses[1].position.y = pose.y;//-0.16118567395;// posy + 0.35;
     co.primitive_poses[1].position.z = pose.z;//;//0.16118567395 posz + 0;
-    co.primitive_poses[1].orientation = tf::createQuaternionMsgFromRollPitchYaw(pose.r, pose.p, pose.YAWR);
+    co.primitive_poses[1].orientation = tf::createQuaternionMsgFromRollPitchYaw(pose.roll, pose.pitch, pose.yaw);
 
 
     co.primitives[0].dimensions[shape_msgs::SolidPrimitive::CYLINDER_HEIGHT] = 0.3;
@@ -185,7 +185,7 @@ moveit_msgs::CollisionObject SpawnPlanningscene::make_handle(string name, Pose p
     co.primitive_poses[0].position.x = co.primitive_poses[1].position.x + -0.0681482099;// + 0;
     co.primitive_poses[0].position.y = co.primitive_poses[1].position.y + 0.16118567395;// + 0.175;
     co.primitive_poses[0].position.z = co.primitive_poses[1].position.z + 0;
-    co.primitive_poses[0].orientation = tf::createQuaternionMsgFromRollPitchYaw(pose.r, pose.p, pose.YAWR);
+    co.primitive_poses[0].orientation = tf::createQuaternionMsgFromRollPitchYaw(pose.roll, pose.pitch, pose.yaw);
 
 
 
@@ -197,7 +197,7 @@ moveit_msgs::CollisionObject SpawnPlanningscene::make_handle(string name, Pose p
     co.primitive_poses[2].position.x = co.primitive_poses[0].position.x + -0.0681482099;//0.16118567395 posx + 0;
     co.primitive_poses[2].position.y = co.primitive_poses[0].position.y + 0.16118567395;// posy + 0.35;
     co.primitive_poses[2].position.z = co.primitive_poses[0].position.z + 0;//0.16118567395 posz + 0;
-    co.primitive_poses[2].orientation = tf::createQuaternionMsgFromRollPitchYaw(pose.r, pose.p, pose.YAWR);
+    co.primitive_poses[2].orientation = tf::createQuaternionMsgFromRollPitchYaw(pose.roll, pose.pitch, pose.yaw);
     return co;
 }
 
