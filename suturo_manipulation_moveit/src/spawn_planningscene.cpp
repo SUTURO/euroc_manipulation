@@ -264,22 +264,31 @@ void SpawnPlanningscene::spawnPlane()
 
 int main(int argc, char **argv)
 {
-    ros::init (argc, argv, "right_arm_pick_place");
-    ros::AsyncSpinner spinner(1);
-    spinner.start();
+  ros::init(argc, argv, "right_arm_pick_place");
+  ros::AsyncSpinner spinner(1);
+  spinner.start();
 
-    ros::NodeHandle nh;
+  ros::NodeHandle nh;
 
-    ros::Publisher pub_co = nh.advertise<moveit_msgs::CollisionObject>("collision_object", 10);
-    SpawnPlanningscene sps(&pub_co);
-    sps.loadYaml("/opt/euroc_c2s1/scenes/task1_v1.yml");
-    ros::WallDuration(0.5).sleep();
-    sps.publish(SpawnPlanningscene::BOX, "red_cube");
-    sps.publish(SpawnPlanningscene::CYLINDER, "green_cylinder");
-    sps.publish(SpawnPlanningscene::HANDLE, "blue_handle");
-    ros::WallDuration(0.5).sleep();
+  ros::Publisher pub_co = nh.advertise<moveit_msgs::CollisionObject>("collision_object", 10);
+  SpawnPlanningscene sps(&pub_co);
+  string map;
+  if (argc > 1)
+  {
+    map = string(argv[1]);
+  }
+  else
+  {
+    map = string("task1_v1");
+  }
+  sps.loadYaml("/opt/euroc_c2s1/scenes/" + map + ".yml");
+  ros::WallDuration(0.5).sleep();
+  sps.publish(SpawnPlanningscene::BOX, "red_cube");
+  sps.publish(SpawnPlanningscene::CYLINDER, "green_cylinder");
+  sps.publish(SpawnPlanningscene::HANDLE, "blue_handle");
+  ros::WallDuration(0.5).sleep();
 
-    ROS_INFO_STREAM("finish");
-    // ros::waitForShutdown();
-    return 0;
+  ROS_INFO_STREAM("finish");
+  // ros::waitForShutdown();
+  return 0;
 }
