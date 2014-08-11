@@ -240,7 +240,18 @@ void SpawnPlanningscene::loadYaml(string yamlfile)
   YAML::Parser parser(filestream);
   YAML::Node doc;
   parser.GetNextDocument(doc);
-  objectsPublic = doc["public_description"]["objects"].Clone();
+  if(!doc.FindValue("public_description") || !doc.FindValue("public_description")->FindValue("objects")) {
+    string includeName;
+    doc["includes"][0] >> includeName;
+    includeName = "/opt/euroc_c2s1/scenes/" + includeName;
+    ifstream includestream(includeName.c_str());
+    YAML::Parser includeParser(includestream);
+    YAML::Node include;
+    includeParser.GetNextDocument(include);
+    objectsPublic = include["public_description"]["objects"].Clone();
+  } else {
+    objectsPublic = doc["public_description"]["objects"].Clone();
+  }
   objectsInternal = doc["internal_description"]["objects"].Clone();
   filestream.close();
 }
