@@ -44,7 +44,7 @@ void set_gripper_pos(const control_msgs::GripperCommandGoalConstPtr &goal, ros::
 
     euroc_c2_msgs::Limits &limits = move_along_joint_path_srv.request.joint_limits[0];
     limits.max_velocity = 0.5;
-    limits.max_acceleration = 150;
+    limits.max_acceleration = 30;
 
 
     move_along_joint_path_client.call(move_along_joint_path_srv);

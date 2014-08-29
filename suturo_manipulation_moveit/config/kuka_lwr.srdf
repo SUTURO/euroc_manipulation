@@ -39,13 +39,13 @@
         <joint name="joint_before_finger2" value="0.035" />
     </group_state>
     <group_state name="scan_pose1" group="arm">
-        <joint name="lwr_joint_1" value="-2.96706" />
-        <joint name="lwr_joint_2" value="1.02252" />
-        <joint name="lwr_joint_3" value="0.0411224" />
-        <joint name="lwr_joint_4" value="1.98813" />
-        <joint name="lwr_joint_5" value="-0.146662" />
-        <joint name="lwr_joint_6" value="-1.66352" />
-        <joint name="lwr_joint_7" value="-1.26411" />
+        <joint name="lwr_joint_1" value="-2.3"/>
+        <joint name="lwr_joint_2" value="1.022521626960062"/>
+        <joint name="lwr_joint_3" value="0.0"/>
+        <joint name="lwr_joint_4" value="1.9881264555823748"/>
+        <joint name="lwr_joint_5" value="0.0"/>
+        <joint name="lwr_joint_6" value="-1.6635239727601192"/>
+        <joint name="lwr_joint_7" value="-1.57"/>
     </group_state>
     <group_state name="x_y_-1" group="base">
         <joint name="base_axis_x" value="-1" />
