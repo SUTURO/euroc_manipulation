@@ -33,6 +33,7 @@ include_directories(SYSTEM ${Boost_INCLUDE_DIR} ${EIGEN_INCLUDE_DIRS})
 # add_executable(state_publisher_node src/state_publisher_node.cpp)
 add_executable(telemetry_to_joint_state src/telemetry-to-joint-state.cpp)
 add_executable(arm_controller src/arm_controller.cpp)
+add_executable(base_controller src/base_controller.cpp)
 add_executable(arm_controller_servo src/arm_controller_servo.cpp)
 add_executable(gripper_controller src/gripper_controller.cpp)
 add_executable(spawn_planningscene src/spawn_planningscene.cpp)
@@ -48,6 +49,7 @@ target_link_libraries(spawn_planningscene
 ## as an example, message headers may need to be generated before nodes
 # add_dependencies(state_publisher_node state_publisher_generate_messages_cpp)
 add_dependencies(arm_controller ${catkin_EXPORTED_TARGETS})
+add_dependencies(base_controller ${catkin_EXPORTED_TARGETS})
 add_dependencies(arm_controller_servo ${catkin_EXPORTED_TARGETS})
 add_dependencies(gripper_controller ${catkin_EXPORTED_TARGETS})
 add_dependencies(spawn_planningscene ${catkin_EXPORTED_TARGETS})
@@ -62,6 +64,10 @@ target_link_libraries(telemetry_to_joint_state
 )
 
 target_link_libraries(arm_controller
+  ${catkin_LIBRARIES}
+)
+
+target_link_libraries(base_controller
   ${catkin_LIBRARIES}
 )
 

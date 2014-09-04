@@ -6,6 +6,8 @@
 
   	<node name="gripper_controller" pkg="suturo_manipulation_moveit" type="gripper_controller" respawn="true" output="screen"/>
 
+  	<node name="base_controller" pkg="suturo_manipulation_moveit" type="base_controller" respawn="true" output="screen"/>
+
 	<include file="$(find suturo_manipulation_moveit)/launch/move_group.launch">
   		<arg name="publish_monitored_planning_scene" value="true" />
  	</include>
