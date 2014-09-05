@@ -48,19 +48,19 @@
         <joint name="lwr_joint_7" value="-1.57"/>
     </group_state>
     <group_state name="x_y_-1" group="base">
-        <joint name="base_axis_x" value="-1" />
-        <joint name="base_axis_y" value="-1" />
+        <joint name="base_axis_x" value="-0.8" />
+        <joint name="base_axis_y" value="-0.8" />
     </group_state>
     <group_state name="x_y_0" group="base">
         <joint name="base_axis_x" value="0" />
         <joint name="base_axis_y" value="0" />
     </group_state>
     <group_state name="x_y_1" group="base">
-        <joint name="base_axis_x" value="1" />
-        <joint name="base_axis_y" value="1" />
+        <joint name="base_axis_x" value="0.8" />
+        <joint name="base_axis_y" value="0.8" />
     </group_state>
     <group_state name="x_-1" group="base">
-        <joint name="base_axis_x" value="-1" />
+        <joint name="base_axis_x" value="-0.8" />
         <joint name="base_axis_y" value="0" />
     </group_state>
     <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
