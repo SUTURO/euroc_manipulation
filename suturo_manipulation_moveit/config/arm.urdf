@@ -377,20 +377,20 @@
     </inertial>
   </link>
 
-  <joint type="prismatic" name="base_axis_x">
+  <joint type="prismatic" name="axis_x">
     <parent link="base_link"/>
     <child link="lwr_base_x"/>
     <origin rpy="0 0 0" xyz="0 0 0.015"/>
     <axis xyz="1.0 0 0"/>
-    <limit velocity="1.6" effort="150" lower="-1" upper="1"/>
+    <limit velocity="1.6" effort="150" lower="-0.92" upper="0.92"/>
   </joint>
 
-  <joint type="prismatic" name="base_axis_y">
+  <joint type="prismatic" name="axis_y">
     <parent link="lwr_base_x"/>
     <child link="lwr_base_y"/>
     <origin rpy="0 0 0" xyz="0 0 0.035"/>
     <axis xyz="0 1.0 0"/>
-    <limit velocity="1.6" effort="150" lower="-1" upper="1"/>
+    <limit velocity="1.6" effort="150" lower="-0.92" upper="0.92"/>
   </joint>
 
 </robot>

@@ -82,12 +82,12 @@ void callback(const euroc_c2_msgs::Telemetry::ConstPtr &telemetry)
     joint_state.velocity.push_back(telemetry->commanded.velocity[9]);
     joint_state.effort.push_back(telemetry->commanded.acceleration[9]);
 
-    joint_state.name.push_back("base_axis_x");
+    joint_state.name.push_back("axis_x");
     joint_state.position.push_back(telemetry->measured.position[3]);
-    joint_state.velocity.push_back(telemetry->commanded.velocity[9]);
-    joint_state.effort.push_back(telemetry->commanded.acceleration[9]);
+    joint_state.velocity.push_back(telemetry->commanded.velocity[2]);
+    joint_state.effort.push_back(telemetry->commanded.acceleration[2]);
 
-    joint_state.name.push_back("base_axis_y");
+    joint_state.name.push_back("axis_y");
     joint_state.position.push_back(telemetry->measured.position[3]);
     joint_state.velocity.push_back(telemetry->commanded.velocity[2]);
     joint_state.effort.push_back(telemetry->commanded.acceleration[2]);

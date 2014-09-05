@@ -23,5 +23,5 @@ controller_list:
    type: FollowJointTrajectory
    default: true
    joints:
-     - base_axis_x
-     - base_axis_y
+     - axis_x
+     - axis_y
