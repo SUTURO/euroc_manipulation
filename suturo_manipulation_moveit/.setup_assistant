@@ -1,7 +1,7 @@
 moveit_setup_assistant_config:
   URDF:
     package: ""
-    relative_path: /home/thocar/euroc_ws/src/euroc_manipulation/suturo_manipulation_moveit/config/arm.urdf
+    relative_path: config/arm.urdf
   SRDF:
     relative_path: config/kuka_lwr.srdf
   CONFIG:
