@@ -1,5 +1,5 @@
 /**
-* This class implements the action server to move allllll.
+* This class implements the action server to move the arm and the base.
 */
 
 #include <ros/ros.h>
@@ -91,7 +91,7 @@ int main(int argc, char **argv)
 
     arm_base_server.start();
 
-    ROS_INFO("Ready to move the all that shiiiiit!.");
+    ROS_INFO("Ready to move!.");
     ros::spin();
     return 0;
 }

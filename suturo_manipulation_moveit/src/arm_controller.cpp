@@ -1,5 +1,5 @@
 /**
-* This class implements the action server to move an selected arm.
+* This class implements the action server to move the arm.
 */
 
 #include <ros/ros.h>
@@ -29,14 +29,6 @@ void goal_call_back(Server::GoalHandle gh)
         move_along_joint_path_srv.request.path.push_back(configuration);
     }
 
-    // euroc_c2_msgs::Configuration configuration;
-    // configuration.q = goal.trajectory.points.begin()->positions;
-    // move_along_joint_path_srv.request.path.push_back(configuration);
-
-    // configuration;
-    // configuration.q = (goal.trajectory.points.end()-1)->positions;
-    // move_along_joint_path_srv.request.path.push_back(configuration);
-
     move_along_joint_path_srv.request.joint_limits.resize(nr_lwr_joints);
     for (unsigned int i = 0; i < nr_lwr_joints; ++i)
     {
@@ -44,16 +36,6 @@ void goal_call_back(Server::GoalHandle gh)
         limits.max_velocity = 20 * M_PI / 180.0;
         limits.max_acceleration = 400 * M_PI / 180.0;
     }
-
-    // euroc_c2_msgs::Limits &limits = move_along_joint_path_srv.request.joint_limits[5];
-    // limits.max_velocity = 10 * M_PI / 180.0;
-    // limits.max_acceleration = 1000 * M_PI / 180.0;
-
-    // euroc_c2_msgs::Limits &limits = move_along_joint_path_srv.request.joint_limits[6];
-    // limits.max_velocity = 10 * M_PI / 180.0;
-    // limits.max_acceleration = 1000 * M_PI / 180.0;
-
-    // move_along_joint_path_srv.request.tcp_limits.resize(nr_lwr_joints);
 
     euroc_c2_msgs::Limits limits_trans;
     limits_trans.max_velocity = 0.165;
@@ -102,7 +84,7 @@ int main(int argc, char **argv)
 
     arm_server.start();
 
-    ROS_INFO("Ready to move the arms!.");
+    ROS_INFO("Ready to move the arm!.");
     ros::spin();
     return 0;
 }

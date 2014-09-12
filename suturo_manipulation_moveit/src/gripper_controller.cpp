@@ -1,5 +1,5 @@
 /**
-* This class implements the action server to move an selected arm.
+* This class implements the action server to open or close the gripper.
 */
 
 #include <ros/ros.h>
@@ -23,7 +23,7 @@ void enable_servo_mode(bool muh)
     enable_servo_client.call(enable);
 }
 
-void set_gripper_pos(const control_msgs::GripperCommandGoalConstPtr &goal, ros::NodeHandle *nh, Server *server_arm)
+void set_gripper_pos(const control_msgs::GripperCommandGoalConstPtr &goal, ros::NodeHandle *nh, Server *server_gripper)
 {
     // enable_servo_mode(false);
     euroc_c2_msgs::MoveAlongJointPath move_along_joint_path_srv;
@@ -54,9 +54,9 @@ void set_gripper_pos(const control_msgs::GripperCommandGoalConstPtr &goal, ros::
     if (!move_error_message.empty())
     {
         std::cout << "Move failed: " + move_error_message << std::endl;
-        server_arm->setAborted();
+        server_gripper->setAborted();
     }
-    server_arm->setSucceeded();
+    server_gripper->setSucceeded();
 }
 
 int main(int argc, char **argv)
@@ -76,11 +76,11 @@ int main(int argc, char **argv)
     ros::service::waitForService(move_along_joint_path);
     move_along_joint_path_client = n.serviceClient<euroc_c2_msgs::MoveAlongJointPath>(move_along_joint_path);
 
-    Server server_arm(n, "/gripper_controller/gripper_action", boost::bind(&set_gripper_pos, _1, &n, &server_arm), false);
+    Server server_gripper(n, "/gripper_controller/gripper_action", boost::bind(&set_gripper_pos, _1, &n, &server_gripper), false);
 
-    server_arm.start();
+    server_gripper.start();
 
-    ROS_INFO("Ready to move the arms!.");
+    ROS_INFO("Ready to open/close the gripper!.");
     ros::spin();
     return 0;
 }
