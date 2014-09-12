@@ -27,7 +27,6 @@ void goal_call_back(Server::GoalHandle gh)
         euroc_c2_msgs::Configuration configuration;
         configuration.q = p->positions;
         move_along_joint_path_srv.request.path.push_back(configuration);
-        // ROS_INFO_STREAM("base_controller: " << p->positions);
     }
 
     ROS_INFO_STREAM(move_along_joint_path_srv.request);

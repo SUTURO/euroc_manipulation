@@ -59,30 +59,17 @@
         <joint name="lwr_joint_6" value="-1.6635239727601192"/>
         <joint name="lwr_joint_7" value="-1.57"/>
     </group_state>
-    <group_state name="x_y_-1" group="base">
-        <joint name="axis_x" value="-0.7" />
-        <joint name="axis_y" value="-0.7" />
     </group_state>
-    <group_state name="x_y_0" group="base">
+    <group_state name="home_pose" group="base">
         <joint name="axis_x" value="0" />
         <joint name="axis_y" value="0" />
     </group_state>
-    <group_state name="x_y_1" group="base">
-        <joint name="axis_x" value="0.7" />
-        <joint name="axis_y" value="0.7" />
-    </group_state>
-    <group_state name="x_-1" group="base">
-        <joint name="axis_x" value="-0.7" />
-        <joint name="axis_y" value="0" />
-    </group_state>
-
-
-    <group_state name="f_object" group="base">
+    <group_state name="in_front_of_cyl_object" group="base">
         <joint name="axis_x" value="-0.4" />
         <joint name="axis_y" value="0.1" />
     </group_state>
 
-    <group_state name="behind_object" group="base">
+    <group_state name="behind_cyl_object" group="base">
         <joint name="axis_x" value="-0.7" />
         <joint name="axis_y" value="0.1" />
     </group_state>
