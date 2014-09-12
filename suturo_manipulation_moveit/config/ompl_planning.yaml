@@ -60,5 +60,5 @@ base:
     - TRRTkConfigDefault
     - PRMkConfigDefault
     - PRMstarkConfigDefault
-  projection_evaluator: joints(axis_x,axis_y)
-  longest_valid_segment_fraction: 0.05
+  # projection_evaluator: joints(axis_x,axis_y)
+  # longest_valid_segment_fraction: 0.05

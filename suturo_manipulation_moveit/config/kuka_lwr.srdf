@@ -48,21 +48,33 @@
         <joint name="lwr_joint_7" value="-1.57"/>
     </group_state>
     <group_state name="x_y_-1" group="base">
-        <joint name="axis_x" value="-0.8" />
-        <joint name="axis_y" value="-0.8" />
+        <joint name="axis_x" value="-0.7" />
+        <joint name="axis_y" value="-0.7" />
     </group_state>
     <group_state name="x_y_0" group="base">
         <joint name="axis_x" value="0" />
         <joint name="axis_y" value="0" />
     </group_state>
     <group_state name="x_y_1" group="base">
-        <joint name="axis_x" value="0.8" />
-        <joint name="axis_y" value="0.8" />
+        <joint name="axis_x" value="0.7" />
+        <joint name="axis_y" value="0.7" />
     </group_state>
     <group_state name="x_-1" group="base">
-        <joint name="axis_x" value="-0.8" />
+        <joint name="axis_x" value="-0.7" />
         <joint name="axis_y" value="0" />
     </group_state>
+
+
+    <group_state name="f_object" group="base">
+        <joint name="axis_x" value="-0.4" />
+        <joint name="axis_y" value="0.1" />
+    </group_state>
+
+    <group_state name="behind_object" group="base">
+        <joint name="axis_x" value="-0.7" />
+        <joint name="axis_y" value="0.1" />
+    </group_state>
+
     <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
     <end_effector name="eef" parent_link="link7" group="arm" />
     <!--VIRTUAL JOINT: Purpose: this element defines a virtual joint between a robot link and an external frame of reference (considered fixed with respect to the robot)-->
