@@ -37,6 +37,7 @@ public:
   };
   SpawnPlanningscene(ros::Publisher* pub_co);
   void publish(PublishType type, string name);
+  void publishObstacles();
   void spawnPlane();
   void loadYaml(string yamlfile);
 
@@ -47,6 +48,7 @@ private:
   moveit_msgs::CollisionObject make_handle(string name, Pose pose);
   std::auto_ptr<YAML::Node> objectsPublic;
   std::auto_ptr<YAML::Node> objectsInternal;
+  std::auto_ptr<YAML::Node> obstaclesInternal;
   ros::Publisher* pub_co;
 
 };
@@ -64,8 +66,8 @@ void operator >>(const YAML::Node& node, SpawnPlanningscene::Pose& p)
 void operator >>(const YAML::Node& node, SpawnPlanningscene::Box& box)
 {
   const YAML::Node& s = node["shape"][0]["size"];
-  s[0] >> box.width;
-  s[1] >> box.height;
+  s[0] >> box.height;
+  s[1] >> box.width;
   s[2] >> box.depth;
 }
 
@@ -163,8 +165,6 @@ moveit_msgs::CollisionObject SpawnPlanningscene::make_handle(string name, Pose p
     co.header.frame_id = "/odom_combined";
     co.operation = moveit_msgs::CollisionObject::ADD;
     co.primitives.resize(3);
-    co.primitives[0].type = shape_msgs::SolidPrimitive::CYLINDER;
-    co.primitives[0].dimensions.resize(shape_tools::SolidPrimitiveDimCount<shape_msgs::SolidPrimitive::CYLINDER>::value);
     co.primitive_poses.resize(3);
 
     co.id = name;
@@ -179,15 +179,14 @@ moveit_msgs::CollisionObject SpawnPlanningscene::make_handle(string name, Pose p
     co.primitive_poses[1].position.z = pose.z;//;//0.16118567395 posz + 0;
     co.primitive_poses[1].orientation = tf::createQuaternionMsgFromRollPitchYaw(pose.roll, pose.pitch, pose.yaw);
 
-
+    co.primitives[0].type = shape_msgs::SolidPrimitive::CYLINDER;
+    co.primitives[0].dimensions.resize(shape_tools::SolidPrimitiveDimCount<shape_msgs::SolidPrimitive::CYLINDER>::value);
     co.primitives[0].dimensions[shape_msgs::SolidPrimitive::CYLINDER_HEIGHT] = 0.3;
     co.primitives[0].dimensions[shape_msgs::SolidPrimitive::CYLINDER_RADIUS] = 0.01;
     co.primitive_poses[0].position.x = co.primitive_poses[1].position.x + -0.0681482099;// + 0;
     co.primitive_poses[0].position.y = co.primitive_poses[1].position.y + 0.16118567395;// + 0.175;
     co.primitive_poses[0].position.z = co.primitive_poses[1].position.z + 0;
     co.primitive_poses[0].orientation = tf::createQuaternionMsgFromRollPitchYaw(pose.roll, pose.pitch, pose.yaw);
-
-
 
     co.primitives[2].type = shape_msgs::SolidPrimitive::BOX;
     co.primitives[2].dimensions.resize(shape_tools::SolidPrimitiveDimCount<shape_msgs::SolidPrimitive::BOX>::value);
@@ -234,6 +233,40 @@ void SpawnPlanningscene::publish(PublishType type, string name)
   pub_co->publish(co);
 }
 
+void SpawnPlanningscene::publishObstacles()
+{
+  if(obstaclesInternal.get()!=NULL)
+  {
+    moveit_msgs::CollisionObject co;
+    Pose pose;
+    Box box;
+    (*obstaclesInternal)["o1"] >> box;
+    (*obstaclesInternal)["o1"]["start_pose"] >> pose;
+    co = make_box("o1", pose, box);
+    co.operation = moveit_msgs::CollisionObject::REMOVE;
+    pub_co->publish(co);
+
+    co.operation = moveit_msgs::CollisionObject::ADD;
+    pub_co->publish(co);
+    (*obstaclesInternal)["o2"] >> box;
+    (*obstaclesInternal)["o2"]["start_pose"] >> pose;
+    co = make_box("o2", pose, box);
+    co.operation = moveit_msgs::CollisionObject::REMOVE;
+    pub_co->publish(co);
+
+    co.operation = moveit_msgs::CollisionObject::ADD;
+    pub_co->publish(co);
+    (*obstaclesInternal)["o3"] >> box;
+    (*obstaclesInternal)["o3"]["start_pose"] >> pose;
+    co = make_box("o3", pose, box);
+    co.operation = moveit_msgs::CollisionObject::REMOVE;
+    pub_co->publish(co);
+
+    co.operation = moveit_msgs::CollisionObject::ADD;
+    pub_co->publish(co);
+  }
+}
+
 void SpawnPlanningscene::loadYaml(string yamlfile)
 {
   ifstream filestream(yamlfile.c_str());
@@ -256,6 +289,10 @@ void SpawnPlanningscene::loadYaml(string yamlfile)
     objectsPublic = doc["public_description"]["objects"].Clone();
   }
   objectsInternal = doc["internal_description"]["objects"].Clone();
+  if(doc["internal_description"].FindValue("obstacles"))
+  {
+    obstaclesInternal = doc["internal_description"]["obstacles"].Clone();
+  }
   filestream.close();
 }
 
@@ -300,6 +337,7 @@ int main(int argc, char **argv)
   sps.publish(SpawnPlanningscene::BOX, "red_cube");
   sps.publish(SpawnPlanningscene::CYLINDER, "green_cylinder");
   sps.publish(SpawnPlanningscene::HANDLE, "blue_handle");
+  sps.publishObstacles();
   ros::WallDuration(0.5).sleep();
 
   ROS_INFO_STREAM("finish");
