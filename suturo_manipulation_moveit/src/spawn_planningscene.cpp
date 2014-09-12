@@ -33,7 +33,7 @@ public:
   };
   enum PublishType
   {
-    BOX, PLANE, CYLINDER, HANDLE
+    BOX, PLANE, CYLINDER, HANDLE, OBSTACLE
   };
   SpawnPlanningscene(ros::Publisher* pub_co);
   void publish(PublishType type, string name);
@@ -225,6 +225,13 @@ void SpawnPlanningscene::publish(PublishType type, string name)
       (*objectsInternal)[name.c_str()]["start_pose"] >> pose;
       co = make_handle(name, pose);
       break;
+    case OBSTACLE:
+      Box box;
+      (*obstaclesInternal)[name.c_str()] >> box;
+      (*obstaclesInternal)[name.c_str()]["start_pose"] >> pose;
+      co = make_box(name, pose, box);
+      break;
+
   }
   co.operation = moveit_msgs::CollisionObject::REMOVE;
   pub_co->publish(co);
@@ -237,33 +244,9 @@ void SpawnPlanningscene::publishObstacles()
 {
   if(obstaclesInternal.get()!=NULL)
   {
-    moveit_msgs::CollisionObject co;
-    Pose pose;
-    Box box;
-    (*obstaclesInternal)["o1"] >> box;
-    (*obstaclesInternal)["o1"]["start_pose"] >> pose;
-    co = make_box("o1", pose, box);
-    co.operation = moveit_msgs::CollisionObject::REMOVE;
-    pub_co->publish(co);
-
-    co.operation = moveit_msgs::CollisionObject::ADD;
-    pub_co->publish(co);
-    (*obstaclesInternal)["o2"] >> box;
-    (*obstaclesInternal)["o2"]["start_pose"] >> pose;
-    co = make_box("o2", pose, box);
-    co.operation = moveit_msgs::CollisionObject::REMOVE;
-    pub_co->publish(co);
-
-    co.operation = moveit_msgs::CollisionObject::ADD;
-    pub_co->publish(co);
-    (*obstaclesInternal)["o3"] >> box;
-    (*obstaclesInternal)["o3"]["start_pose"] >> pose;
-    co = make_box("o3", pose, box);
-    co.operation = moveit_msgs::CollisionObject::REMOVE;
-    pub_co->publish(co);
-
-    co.operation = moveit_msgs::CollisionObject::ADD;
-    pub_co->publish(co);
+    publish(PublishType::OBSTACLE, "o1");
+    publish(PublishType::OBSTACLE, "o2");
+    publish(PublishType::OBSTACLE, "o3");
   }
 }
 
