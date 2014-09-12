@@ -4,6 +4,8 @@
 
   	<node name="arm_controller" pkg="suturo_manipulation_moveit" type="arm_controller" respawn="true" output="screen"/>
 
+  	<node name="arm_base_controller" pkg="suturo_manipulation_moveit" type="arm_base_controller" respawn="true" output="screen"/>
+
   	<node name="gripper_controller" pkg="suturo_manipulation_moveit" type="gripper_controller" respawn="true" output="screen"/>
 
   	<node name="base_controller" pkg="suturo_manipulation_moveit" type="base_controller" respawn="true" output="screen"/>

@@ -25,3 +25,17 @@ controller_list:
    joints:
      - axis_x
      - axis_y
+ - name: arm_base_controller
+   action_ns: follow_joint_trajectory
+   type: FollowJointTrajectory
+   default: true
+   joints:
+     - lwr_joint_1
+     - lwr_joint_2
+     - lwr_joint_3
+     - lwr_joint_4
+     - lwr_joint_5
+     - lwr_joint_6
+     - lwr_joint_7
+     - axis_x
+     - axis_y

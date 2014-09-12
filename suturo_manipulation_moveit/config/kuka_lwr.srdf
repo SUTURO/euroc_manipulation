@@ -19,6 +19,18 @@
         <joint name="lwr_joint_6" />
         <joint name="lwr_joint_7" />
     </group>
+    <group name="arm_base">
+        <joint name="base_joint" />
+        <joint name="lwr_joint_1" />
+        <joint name="lwr_joint_2" />
+        <joint name="lwr_joint_3" />
+        <joint name="lwr_joint_4" />
+        <joint name="lwr_joint_5" />
+        <joint name="lwr_joint_6" />
+        <joint name="lwr_joint_7" />
+        <joint name="axis_x" />
+        <joint name="axis_y" />
+    </group>
     <group name="gripper">
         <joint name="joint_before_finger1" />
         <joint name="joint_before_finger2" />
