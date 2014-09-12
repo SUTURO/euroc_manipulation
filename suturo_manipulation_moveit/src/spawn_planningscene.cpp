@@ -204,10 +204,10 @@ void SpawnPlanningscene::publish(PublishType type, string name)
 {
   moveit_msgs::CollisionObject co;
   Pose pose;
+  Box box;
   switch (type)
   {
     case BOX:
-      Box box;
       (*objectsPublic)[name.c_str()] >> box;
       (*objectsInternal)[name.c_str()]["start_pose"] >> pose;
       co = make_box(name, pose, box);
@@ -226,7 +226,6 @@ void SpawnPlanningscene::publish(PublishType type, string name)
       co = make_handle(name, pose);
       break;
     case OBSTACLE:
-      Box box;
       (*obstaclesInternal)[name.c_str()] >> box;
       (*obstaclesInternal)[name.c_str()]["start_pose"] >> pose;
       co = make_box(name, pose, box);
@@ -244,9 +243,9 @@ void SpawnPlanningscene::publishObstacles()
 {
   if(obstaclesInternal.get()!=NULL)
   {
-    publish(PublishType::OBSTACLE, "o1");
-    publish(PublishType::OBSTACLE, "o2");
-    publish(PublishType::OBSTACLE, "o3");
+    publish(SpawnPlanningscene::OBSTACLE, "o1");
+    publish(SpawnPlanningscene::OBSTACLE, "o2");
+    publish(SpawnPlanningscene::OBSTACLE, "o3");
   }
 }
 
