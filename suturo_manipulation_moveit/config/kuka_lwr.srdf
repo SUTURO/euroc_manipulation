@@ -59,7 +59,6 @@
         <joint name="lwr_joint_6" value="-1.6635239727601192"/>
         <joint name="lwr_joint_7" value="-1.57"/>
     </group_state>
-    </group_state>
     <group_state name="home_pose" group="base">
         <joint name="axis_x" value="0" />
         <joint name="axis_y" value="0" />
