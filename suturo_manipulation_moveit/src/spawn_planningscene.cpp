@@ -46,8 +46,9 @@ private:
   moveit_msgs::CollisionObject make_plane(string name);
   moveit_msgs::CollisionObject make_cylinder(string name, Pose pose, Cylinder dim);
   moveit_msgs::CollisionObject make_handle(string name, Pose pose);
-  std::auto_ptr<YAML::Node> objectsPublic;
-  std::auto_ptr<YAML::Node> objectsInternal;
+  void extractRelevantValues(YAML::Node &doc);
+  std::auto_ptr<YAML::Node> publicDescription;
+  std::auto_ptr<YAML::Node> internalDescription;
   std::auto_ptr<YAML::Node> obstaclesInternal;
   ros::Publisher* pub_co;
 
@@ -205,24 +206,24 @@ void SpawnPlanningscene::publish(PublishType type, string name)
   moveit_msgs::CollisionObject co;
   Pose pose;
   Box box;
+  Cylinder cylinder;
   switch (type)
   {
     case BOX:
-      (*objectsPublic)[name.c_str()] >> box;
-      (*objectsInternal)[name.c_str()]["start_pose"] >> pose;
+      (*publicDescription)[name.c_str()] >> box;
+      (*internalDescription)[name.c_str()]["start_pose"] >> pose;
       co = make_box(name, pose, box);
       break;
     case PLANE:
       co = make_plane(name);
       break;
     case CYLINDER:
-      Cylinder cylinder;
-      (*objectsPublic)[name.c_str()] >> cylinder;
-      (*objectsInternal)[name.c_str()]["start_pose"] >> pose;
+      (*publicDescription)[name.c_str()] >> cylinder;
+      (*internalDescription)[name.c_str()]["start_pose"] >> pose;
       co = make_cylinder(name, pose, cylinder);
       break;
     case HANDLE:
-      (*objectsInternal)[name.c_str()]["start_pose"] >> pose;
+      (*internalDescription)[name.c_str()]["start_pose"] >> pose;
       co = make_handle(name, pose);
       break;
     case OBSTACLE:
@@ -251,31 +252,43 @@ void SpawnPlanningscene::publishObstacles()
 
 void SpawnPlanningscene::loadYaml(string yamlfile)
 {
-  ifstream filestream(yamlfile.c_str());
+  string includePath = "/opt/euroc_c2s1/scenes/" + yamlfile;
+  ifstream filestream(includePath.c_str());
   YAML::Parser parser(filestream);
   YAML::Node doc;
   parser.GetNextDocument(doc);
-  if (!doc.FindValue("public_description") || !doc.FindValue("public_description")->FindValue("objects"))
+  extractRelevantValues(doc);
+  if (doc.FindValue("includes"))
   {
-    string includeName;
-    doc["includes"][0] >> includeName;
-    includeName = "/opt/euroc_c2s1/scenes/" + includeName;
-    ifstream includestream(includeName.c_str());
-    YAML::Parser includeParser(includestream);
-    YAML::Node include;
-    includeParser.GetNextDocument(include);
-    objectsPublic = include["public_description"]["objects"].Clone();
-  }
-  else
-  {
-    objectsPublic = doc["public_description"]["objects"].Clone();
-  }
-  objectsInternal = doc["internal_description"]["objects"].Clone();
-  if(doc["internal_description"].FindValue("obstacles"))
-  {
-    obstaclesInternal = doc["internal_description"]["obstacles"].Clone();
+    const YAML::Node& includes = doc["includes"];
+    for (YAML::Iterator i = includes.begin(); i != includes.end(); ++i)
+    {
+      std::string includeName;
+      *i >> includeName;
+      loadYaml(includeName);
+    }
   }
   filestream.close();
+}
+
+void SpawnPlanningscene::extractRelevantValues(YAML::Node& doc)
+{
+  if (publicDescription.get() == NULL && doc.FindValue("public_description")
+      && doc.FindValue("public_description")->FindValue("objects"))
+  {
+    publicDescription = doc["public_description"]["objects"].Clone();
+  }
+  if (doc.FindValue("internal_description"))
+  {
+    if (internalDescription.get() == NULL && doc.FindValue("internal_description")->FindValue("objects"))
+    {
+      internalDescription = doc["internal_description"]["objects"].Clone();
+    }
+    if (obstaclesInternal.get() == NULL && doc.FindValue("internal_description")->FindValue("obstacles"))
+    {
+      obstaclesInternal = doc["internal_description"]["obstacles"].Clone();
+    }
+  }
 }
 
 void SpawnPlanningscene::spawnPlane()
@@ -314,7 +327,7 @@ int main(int argc, char **argv)
   {
     map = string("task1_v1");
   }
-  sps.loadYaml("/opt/euroc_c2s1/scenes/" + map + ".yml");
+  sps.loadYaml(map + ".yml");
   ros::WallDuration(0.5).sleep();
   sps.publish(SpawnPlanningscene::BOX, "red_cube");
   sps.publish(SpawnPlanningscene::CYLINDER, "green_cylinder");
