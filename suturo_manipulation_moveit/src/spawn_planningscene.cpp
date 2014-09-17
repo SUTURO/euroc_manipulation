@@ -242,11 +242,15 @@ void SpawnPlanningscene::publish(PublishType type, string name)
 
 void SpawnPlanningscene::publishObstacles()
 {
-  if(obstaclesInternal.get()!=NULL)
+  if (obstaclesInternal.get() != NULL)
   {
-    publish(SpawnPlanningscene::OBSTACLE, "o1");
-    publish(SpawnPlanningscene::OBSTACLE, "o2");
-    publish(SpawnPlanningscene::OBSTACLE, "o3");
+    const YAML::Node& obstacles = (*obstaclesInternal);
+    for (YAML::Iterator i = obstacles.begin(); i != obstacles.end(); ++i)
+    {
+      std::string name;
+      i.first() >> name;
+      publish(SpawnPlanningscene::OBSTACLE, name);
+    }
   }
 }
 
@@ -316,7 +320,7 @@ int main(int argc, char **argv)
 
   ros::NodeHandle nh;
 
-  ros::Publisher pub_co = nh.advertise<moveit_msgs::CollisionObject>("collision_object", 10);
+  ros::Publisher pub_co = nh.advertise<moveit_msgs::CollisionObject>("collision_object", 20);
   SpawnPlanningscene sps(&pub_co);
   string map;
   if (argc > 1)
