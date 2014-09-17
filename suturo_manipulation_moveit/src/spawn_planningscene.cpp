@@ -37,6 +37,7 @@ public:
   };
   SpawnPlanningscene(ros::Publisher* pub_co);
   void publish(PublishType type, string name);
+  void publishObjects();
   void publishObstacles();
   void spawnPlane();
   void loadYaml(string yamlfile);
@@ -46,7 +47,7 @@ private:
   moveit_msgs::CollisionObject make_plane(string name);
   moveit_msgs::CollisionObject make_cylinder(string name, Pose pose, Cylinder dim);
   moveit_msgs::CollisionObject make_handle(string name, Pose pose);
-  void extractRelevantValues(YAML::Node &doc);
+  void extractRelevantNodes(YAML::Node &doc);
   std::auto_ptr<YAML::Node> publicDescription;
   std::auto_ptr<YAML::Node> internalDescription;
   std::auto_ptr<YAML::Node> obstaclesInternal;
@@ -240,6 +241,14 @@ void SpawnPlanningscene::publish(PublishType type, string name)
   pub_co->publish(co);
 }
 
+void SpawnPlanningscene::publishObjects()
+{
+  if (publicDescription.get() != NULL)
+  {
+    // TODO fill me
+  }
+}
+
 void SpawnPlanningscene::publishObstacles()
 {
   if (obstaclesInternal.get() != NULL)
@@ -254,6 +263,24 @@ void SpawnPlanningscene::publishObstacles()
   }
 }
 
+
+
+void SpawnPlanningscene::spawnPlane()
+{
+//  publish(SpawnPlanningscene::PLANE, "plane");
+
+// or
+
+//  Pose p = {0, 0, -0.005, 0, 0, 0};
+//  Box b = {2, 2, 0};
+//  moveit_msgs::CollisionObject co = make_box("ground", p, b);
+//  co.operation = moveit_msgs::CollisionObject::REMOVE;
+//  pub_co->publish(co);
+//
+//  co.operation = moveit_msgs::CollisionObject::ADD;
+//  pub_co->publish(co);
+}
+
 void SpawnPlanningscene::loadYaml(string yamlfile)
 {
   string includePath = "/opt/euroc_c2s1/scenes/" + yamlfile;
@@ -261,7 +288,7 @@ void SpawnPlanningscene::loadYaml(string yamlfile)
   YAML::Parser parser(filestream);
   YAML::Node doc;
   parser.GetNextDocument(doc);
-  extractRelevantValues(doc);
+  extractRelevantNodes(doc);
   if (doc.FindValue("includes"))
   {
     const YAML::Node& includes = doc["includes"];
@@ -275,7 +302,7 @@ void SpawnPlanningscene::loadYaml(string yamlfile)
   filestream.close();
 }
 
-void SpawnPlanningscene::extractRelevantValues(YAML::Node& doc)
+void SpawnPlanningscene::extractRelevantNodes(YAML::Node& doc)
 {
   if (publicDescription.get() == NULL && doc.FindValue("public_description")
       && doc.FindValue("public_description")->FindValue("objects"))
@@ -294,23 +321,6 @@ void SpawnPlanningscene::extractRelevantValues(YAML::Node& doc)
     }
   }
 }
-
-void SpawnPlanningscene::spawnPlane()
-{
-//  publish(SpawnPlanningscene::PLANE, "plane");
-
-// or
-
-//  Pose p = {0, 0, -0.005, 0, 0, 0};
-//  Box b = {2, 2, 0};
-//  moveit_msgs::CollisionObject co = make_box("ground", p, b);
-//  co.operation = moveit_msgs::CollisionObject::REMOVE;
-//  pub_co->publish(co);
-//
-//  co.operation = moveit_msgs::CollisionObject::ADD;
-//  pub_co->publish(co);
-}
-
 
 int main(int argc, char **argv)
 {
@@ -333,6 +343,7 @@ int main(int argc, char **argv)
   }
   sps.loadYaml(map + ".yml");
   ros::WallDuration(0.5).sleep();
+  sps.publishObjects();
   sps.publish(SpawnPlanningscene::BOX, "red_cube");
   sps.publish(SpawnPlanningscene::CYLINDER, "green_cylinder");
   sps.publish(SpawnPlanningscene::HANDLE, "blue_handle");
