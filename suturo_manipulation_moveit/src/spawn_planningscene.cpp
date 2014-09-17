@@ -11,7 +11,6 @@
 #include <fstream>
 #include <yaml-cpp/yaml.h>
 
-
 static const std::string ROBOT_DESCRIPTION = "robot_description";
 
 using namespace std;
@@ -25,11 +24,11 @@ public:
   };
   struct Cylinder
   {
-      double height,radius;
+    double height, radius;
   };
   struct Box
   {
-      double width,height,depth;
+    double width, height, depth;
   };
   enum PublishType
   {
@@ -73,7 +72,6 @@ void operator >>(const YAML::Node& node, SpawnPlanningscene::Box& box)
   s[2] >> box.depth;
 }
 
-
 void operator >>(const YAML::Node& node, SpawnPlanningscene::Cylinder& box)
 {
   node["shape"][0]["radius"] >> box.radius;
@@ -87,119 +85,119 @@ SpawnPlanningscene::SpawnPlanningscene(ros::Publisher* pub_co)
 
 moveit_msgs::CollisionObject SpawnPlanningscene::make_box(string name, Pose pose, Box dim)
 {
-    moveit_msgs::CollisionObject co;
-    co.header.stamp = ros::Time::now();
-    co.header.frame_id = "/odom_combined";
-    co.operation = moveit_msgs::CollisionObject::ADD;
-    co.primitives.resize(1);
-    co.primitives[0].type = shape_msgs::SolidPrimitive::BOX;
-    co.primitives[0].dimensions.resize(shape_tools::SolidPrimitiveDimCount<shape_msgs::SolidPrimitive::BOX>::value);
-    co.primitive_poses.resize(1);
+  moveit_msgs::CollisionObject co;
+  co.header.stamp = ros::Time::now();
+  co.header.frame_id = "/odom_combined";
+  co.operation = moveit_msgs::CollisionObject::ADD;
+  co.primitives.resize(1);
+  co.primitives[0].type = shape_msgs::SolidPrimitive::BOX;
+  co.primitives[0].dimensions.resize(shape_tools::SolidPrimitiveDimCount<shape_msgs::SolidPrimitive::BOX>::value);
+  co.primitive_poses.resize(1);
 
-    co.id = name;
+  co.id = name;
 
-    co.primitives[0].dimensions[shape_msgs::SolidPrimitive::BOX_X] = dim.height;
-    co.primitives[0].dimensions[shape_msgs::SolidPrimitive::BOX_Y] = dim.width;
-    co.primitives[0].dimensions[shape_msgs::SolidPrimitive::BOX_Z] = dim.depth;
-    co.primitive_poses[0].position.x = pose.x;
-    co.primitive_poses[0].position.y = pose.y;
-    co.primitive_poses[0].position.z = pose.z;
-    co.primitive_poses[0].orientation = tf::createQuaternionMsgFromRollPitchYaw(pose.roll, pose.pitch, pose.yaw);
-    return co;
+  co.primitives[0].dimensions[shape_msgs::SolidPrimitive::BOX_X] = dim.height;
+  co.primitives[0].dimensions[shape_msgs::SolidPrimitive::BOX_Y] = dim.width;
+  co.primitives[0].dimensions[shape_msgs::SolidPrimitive::BOX_Z] = dim.depth;
+  co.primitive_poses[0].position.x = pose.x;
+  co.primitive_poses[0].position.y = pose.y;
+  co.primitive_poses[0].position.z = pose.z;
+  co.primitive_poses[0].orientation = tf::createQuaternionMsgFromRollPitchYaw(pose.roll, pose.pitch, pose.yaw);
+  return co;
 }
 
 moveit_msgs::CollisionObject SpawnPlanningscene::make_plane(string name)
 {
-    moveit_msgs::CollisionObject co;
-    co.header.stamp = ros::Time::now();
-    co.header.frame_id = "/odom_combined";
-    co.operation = moveit_msgs::CollisionObject::ADD;
+  moveit_msgs::CollisionObject co;
+  co.header.stamp = ros::Time::now();
+  co.header.frame_id = "/odom_combined";
+  co.operation = moveit_msgs::CollisionObject::ADD;
 
-    co.id = name;
+  co.id = name;
 
-    geometry_msgs::Pose p;
-    p.position.x = 0;
-    p.position.y = 0;
-    p.position.z = 0;
-    p.orientation.x = 0;
-    p.orientation.y = 0;
-    p.orientation.z = 0;
-    p.orientation.w = 1;
+  geometry_msgs::Pose p;
+  p.position.x = 0;
+  p.position.y = 0;
+  p.position.z = 0;
+  p.orientation.x = 0;
+  p.orientation.y = 0;
+  p.orientation.z = 0;
+  p.orientation.w = 1;
 
-    shape_msgs::Plane plane;
-    plane.coef[0] = 0;
-    plane.coef[1] = 0;
-    plane.coef[2] = 1;
-    plane.coef[3] = 0;
+  shape_msgs::Plane plane;
+  plane.coef[0] = 0;
+  plane.coef[1] = 0;
+  plane.coef[2] = 1;
+  plane.coef[3] = 0;
 
-    co.planes.push_back(plane);
-    co.plane_poses.push_back(p);
-    ROS_INFO_STREAM(co);
-    return co;
+  co.planes.push_back(plane);
+  co.plane_poses.push_back(p);
+  ROS_INFO_STREAM(co);
+  return co;
 }
 
 moveit_msgs::CollisionObject SpawnPlanningscene::make_cylinder(string name, Pose pose, Cylinder dim)
 {
-    moveit_msgs::CollisionObject co;
-    co.header.stamp = ros::Time::now();
-    co.header.frame_id = "/odom_combined";
-    co.operation = moveit_msgs::CollisionObject::ADD;
-    co.primitives.resize(1);
-    co.primitives[0].type = shape_msgs::SolidPrimitive::CYLINDER;
-    co.primitives[0].dimensions.resize(shape_tools::SolidPrimitiveDimCount<shape_msgs::SolidPrimitive::CYLINDER>::value);
-    co.primitive_poses.resize(1);
+  moveit_msgs::CollisionObject co;
+  co.header.stamp = ros::Time::now();
+  co.header.frame_id = "/odom_combined";
+  co.operation = moveit_msgs::CollisionObject::ADD;
+  co.primitives.resize(1);
+  co.primitives[0].type = shape_msgs::SolidPrimitive::CYLINDER;
+  co.primitives[0].dimensions.resize(shape_tools::SolidPrimitiveDimCount<shape_msgs::SolidPrimitive::CYLINDER>::value);
+  co.primitive_poses.resize(1);
 
-    co.id = name;
+  co.id = name;
 
-    co.primitives[0].dimensions[shape_msgs::SolidPrimitive::CYLINDER_HEIGHT] = dim.height;
-    co.primitives[0].dimensions[shape_msgs::SolidPrimitive::CYLINDER_RADIUS] = dim.radius;
-    co.primitive_poses[0].position.x = pose.x;
-    co.primitive_poses[0].position.y = pose.y;
-    co.primitive_poses[0].position.z = pose.z;
-    co.primitive_poses[0].orientation = tf::createQuaternionMsgFromRollPitchYaw(pose.roll, pose.pitch, pose.yaw);
-    return co;
+  co.primitives[0].dimensions[shape_msgs::SolidPrimitive::CYLINDER_HEIGHT] = dim.height;
+  co.primitives[0].dimensions[shape_msgs::SolidPrimitive::CYLINDER_RADIUS] = dim.radius;
+  co.primitive_poses[0].position.x = pose.x;
+  co.primitive_poses[0].position.y = pose.y;
+  co.primitive_poses[0].position.z = pose.z;
+  co.primitive_poses[0].orientation = tf::createQuaternionMsgFromRollPitchYaw(pose.roll, pose.pitch, pose.yaw);
+  return co;
 }
 
 moveit_msgs::CollisionObject SpawnPlanningscene::make_handle(string name, Pose pose)
 {
-    moveit_msgs::CollisionObject co;
-    co.header.stamp = ros::Time::now();
-    co.header.frame_id = "/odom_combined";
-    co.operation = moveit_msgs::CollisionObject::ADD;
-    co.primitives.resize(3);
-    co.primitive_poses.resize(3);
+  moveit_msgs::CollisionObject co;
+  co.header.stamp = ros::Time::now();
+  co.header.frame_id = "/odom_combined";
+  co.operation = moveit_msgs::CollisionObject::ADD;
+  co.primitives.resize(3);
+  co.primitive_poses.resize(3);
 
-    co.id = name;
+  co.id = name;
 
-    co.primitives[1].type = shape_msgs::SolidPrimitive::BOX;
-    co.primitives[1].dimensions.resize(shape_tools::SolidPrimitiveDimCount<shape_msgs::SolidPrimitive::BOX>::value);
-    co.primitives[1].dimensions[shape_msgs::SolidPrimitive::BOX_Z] = 0.05;
-    co.primitives[1].dimensions[shape_msgs::SolidPrimitive::BOX_Y] = 0.05;
-    co.primitives[1].dimensions[shape_msgs::SolidPrimitive::BOX_X] = 0.05;
-    co.primitive_poses[1].position.x = pose.x;//0.0681482099;//0.16118567395 posx + 0;
-    co.primitive_poses[1].position.y = pose.y;//-0.16118567395;// posy + 0.35;
-    co.primitive_poses[1].position.z = pose.z;//;//0.16118567395 posz + 0;
-    co.primitive_poses[1].orientation = tf::createQuaternionMsgFromRollPitchYaw(pose.roll, pose.pitch, pose.yaw);
+  co.primitives[1].type = shape_msgs::SolidPrimitive::BOX;
+  co.primitives[1].dimensions.resize(shape_tools::SolidPrimitiveDimCount<shape_msgs::SolidPrimitive::BOX>::value);
+  co.primitives[1].dimensions[shape_msgs::SolidPrimitive::BOX_Z] = 0.05;
+  co.primitives[1].dimensions[shape_msgs::SolidPrimitive::BOX_Y] = 0.05;
+  co.primitives[1].dimensions[shape_msgs::SolidPrimitive::BOX_X] = 0.05;
+  co.primitive_poses[1].position.x = pose.x; //0.0681482099;//0.16118567395 posx + 0;
+  co.primitive_poses[1].position.y = pose.y; //-0.16118567395;// posy + 0.35;
+  co.primitive_poses[1].position.z = pose.z; //;//0.16118567395 posz + 0;
+  co.primitive_poses[1].orientation = tf::createQuaternionMsgFromRollPitchYaw(pose.roll, pose.pitch, pose.yaw);
 
-    co.primitives[0].type = shape_msgs::SolidPrimitive::CYLINDER;
-    co.primitives[0].dimensions.resize(shape_tools::SolidPrimitiveDimCount<shape_msgs::SolidPrimitive::CYLINDER>::value);
-    co.primitives[0].dimensions[shape_msgs::SolidPrimitive::CYLINDER_HEIGHT] = 0.3;
-    co.primitives[0].dimensions[shape_msgs::SolidPrimitive::CYLINDER_RADIUS] = 0.01;
-    co.primitive_poses[0].position.x = co.primitive_poses[1].position.x + -0.0681482099;// + 0;
-    co.primitive_poses[0].position.y = co.primitive_poses[1].position.y + 0.16118567395;// + 0.175;
-    co.primitive_poses[0].position.z = co.primitive_poses[1].position.z + 0;
-    co.primitive_poses[0].orientation = tf::createQuaternionMsgFromRollPitchYaw(pose.roll, pose.pitch, pose.yaw);
+  co.primitives[0].type = shape_msgs::SolidPrimitive::CYLINDER;
+  co.primitives[0].dimensions.resize(shape_tools::SolidPrimitiveDimCount<shape_msgs::SolidPrimitive::CYLINDER>::value);
+  co.primitives[0].dimensions[shape_msgs::SolidPrimitive::CYLINDER_HEIGHT] = 0.3;
+  co.primitives[0].dimensions[shape_msgs::SolidPrimitive::CYLINDER_RADIUS] = 0.01;
+  co.primitive_poses[0].position.x = co.primitive_poses[1].position.x + -0.0681482099; // + 0;
+  co.primitive_poses[0].position.y = co.primitive_poses[1].position.y + 0.16118567395; // + 0.175;
+  co.primitive_poses[0].position.z = co.primitive_poses[1].position.z + 0;
+  co.primitive_poses[0].orientation = tf::createQuaternionMsgFromRollPitchYaw(pose.roll, pose.pitch, pose.yaw);
 
-    co.primitives[2].type = shape_msgs::SolidPrimitive::BOX;
-    co.primitives[2].dimensions.resize(shape_tools::SolidPrimitiveDimCount<shape_msgs::SolidPrimitive::BOX>::value);
-    co.primitives[2].dimensions[shape_msgs::SolidPrimitive::BOX_Z] = 0.05;
-    co.primitives[2].dimensions[shape_msgs::SolidPrimitive::BOX_Y] = 0.05;
-    co.primitives[2].dimensions[shape_msgs::SolidPrimitive::BOX_X] = 0.05;
-    co.primitive_poses[2].position.x = co.primitive_poses[0].position.x + -0.0681482099;//0.16118567395 posx + 0;
-    co.primitive_poses[2].position.y = co.primitive_poses[0].position.y + 0.16118567395;// posy + 0.35;
-    co.primitive_poses[2].position.z = co.primitive_poses[0].position.z + 0;//0.16118567395 posz + 0;
-    co.primitive_poses[2].orientation = tf::createQuaternionMsgFromRollPitchYaw(pose.roll, pose.pitch, pose.yaw);
-    return co;
+  co.primitives[2].type = shape_msgs::SolidPrimitive::BOX;
+  co.primitives[2].dimensions.resize(shape_tools::SolidPrimitiveDimCount<shape_msgs::SolidPrimitive::BOX>::value);
+  co.primitives[2].dimensions[shape_msgs::SolidPrimitive::BOX_Z] = 0.05;
+  co.primitives[2].dimensions[shape_msgs::SolidPrimitive::BOX_Y] = 0.05;
+  co.primitives[2].dimensions[shape_msgs::SolidPrimitive::BOX_X] = 0.05;
+  co.primitive_poses[2].position.x = co.primitive_poses[0].position.x + -0.0681482099; //0.16118567395 posx + 0;
+  co.primitive_poses[2].position.y = co.primitive_poses[0].position.y + 0.16118567395; // posy + 0.35;
+  co.primitive_poses[2].position.z = co.primitive_poses[0].position.z + 0; //0.16118567395 posz + 0;
+  co.primitive_poses[2].orientation = tf::createQuaternionMsgFromRollPitchYaw(pose.roll, pose.pitch, pose.yaw);
+  return co;
 }
 
 void SpawnPlanningscene::publish(PublishType type, string name)
@@ -262,8 +260,6 @@ void SpawnPlanningscene::publishObstacles()
     }
   }
 }
-
-
 
 void SpawnPlanningscene::spawnPlane()
 {
