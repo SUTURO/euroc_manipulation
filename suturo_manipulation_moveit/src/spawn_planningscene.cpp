@@ -314,7 +314,7 @@ void SpawnPlanningscene::spawnPlane()
 
 int main(int argc, char **argv)
 {
-  ros::init(argc, argv, "right_arm_pick_place");
+  ros::init(argc, argv, "spawn_planningscene");
   ros::AsyncSpinner spinner(1);
   spinner.start();
 
