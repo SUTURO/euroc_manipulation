@@ -39,8 +39,9 @@ private:
   moveit_msgs::CollisionObject make_handle(string, Pose);
   void extractRelevantNodes(YAML::Node&);
   void publishObject(string, const YAML::Node&, const YAML::Node&);
-  void addBox(moveit_msgs::CollisionObject&, Box, Pose);
-  void addCylinder(moveit_msgs::CollisionObject&, Cylinder, Pose);
+  void addBox(moveit_msgs::CollisionObject&, Box);
+  void addCylinder(moveit_msgs::CollisionObject&, Cylinder);
+  void addPose(moveit_msgs::CollisionObject&, Pose, Pose);
   std::auto_ptr<YAML::Node> publicDescription;
   std::auto_ptr<YAML::Node> internalDescription;
   std::auto_ptr<YAML::Node> obstaclesInternal;
@@ -114,13 +115,15 @@ void SpawnPlanningscene::publishObject(string name, const YAML::Node& publicObje
     {
       Box box;
       (*i) >> box;
-      addBox(co, box, pose);
+      addBox(co, box);
+      addPose(co, box.pose, pose);
     }
     else if (type == "cylinder")
     {
       Cylinder cylinder;
       (*i) >> cylinder;
-      addCylinder(co, cylinder, pose);
+      addCylinder(co, cylinder);
+      addPose(co, cylinder.pose, pose);
     }
   }
   co.operation = moveit_msgs::CollisionObject::REMOVE;
@@ -130,7 +133,7 @@ void SpawnPlanningscene::publishObject(string name, const YAML::Node& publicObje
   pub_co->publish(co);
 }
 
-void SpawnPlanningscene::addBox(moveit_msgs::CollisionObject& co, Box box, Pose pose)
+void SpawnPlanningscene::addBox(moveit_msgs::CollisionObject& co, Box box)
 {
   shape_msgs::SolidPrimitive moveitPrimitive;
   moveitPrimitive.type = shape_msgs::SolidPrimitive::BOX;
@@ -139,19 +142,9 @@ void SpawnPlanningscene::addBox(moveit_msgs::CollisionObject& co, Box box, Pose 
   moveitPrimitive.dimensions[shape_msgs::SolidPrimitive::BOX_Y] = box.width;
   moveitPrimitive.dimensions[shape_msgs::SolidPrimitive::BOX_Z] = box.depth;
   co.primitives.push_back(moveitPrimitive);
-  geometry_msgs::Pose moveitPose;
-  tf::Vector3 offset(box.pose.x, box.pose.y, box.pose.z);
-  tf::Quaternion quat;
-  quat.setRPY(pose.roll, pose.pitch, pose.yaw);
-  tf::Vector3 rotatedOffset = tf::quatRotate(quat, offset);
-  moveitPose.position.x = pose.x + rotatedOffset.x();
-  moveitPose.position.y = pose.y + rotatedOffset.y();
-  moveitPose.position.z = pose.z + rotatedOffset.z();
-  tf::quaternionTFToMsg(quat, moveitPose.orientation);
-  co.primitive_poses.push_back(moveitPose);
 }
 
-void SpawnPlanningscene::addCylinder(moveit_msgs::CollisionObject& co, Cylinder cylinder, Pose pose)
+void SpawnPlanningscene::addCylinder(moveit_msgs::CollisionObject& co, Cylinder cylinder)
 {
   shape_msgs::SolidPrimitive moveitPrimitive;
   moveitPrimitive.type = shape_msgs::SolidPrimitive::CYLINDER;
@@ -159,14 +152,18 @@ void SpawnPlanningscene::addCylinder(moveit_msgs::CollisionObject& co, Cylinder 
   moveitPrimitive.dimensions[shape_msgs::SolidPrimitive::CYLINDER_HEIGHT] = cylinder.height;
   moveitPrimitive.dimensions[shape_msgs::SolidPrimitive::CYLINDER_RADIUS] = cylinder.radius;
   co.primitives.push_back(moveitPrimitive);
+}
+
+void SpawnPlanningscene::addPose(moveit_msgs::CollisionObject& co, Pose relativePose, Pose absoultePose)
+{
   geometry_msgs::Pose moveitPose;
-  tf::Vector3 offset(cylinder.pose.x, cylinder.pose.y, cylinder.pose.z);
+  tf::Vector3 offset(relativePose.x, relativePose.y, relativePose.z);
   tf::Quaternion quat;
-  quat.setRPY(pose.roll, pose.pitch, pose.yaw);
+  quat.setRPY(absoultePose.roll, absoultePose.pitch, absoultePose.yaw);
   tf::Vector3 rotatedOffset = tf::quatRotate(quat, offset);
-  moveitPose.position.x = pose.x + rotatedOffset.x();
-  moveitPose.position.y = pose.y + rotatedOffset.y();
-  moveitPose.position.z = pose.z + rotatedOffset.z();
+  moveitPose.position.x = absoultePose.x + rotatedOffset.x();
+  moveitPose.position.y = absoultePose.y + rotatedOffset.y();
+  moveitPose.position.z = absoultePose.z + rotatedOffset.z();
   tf::quaternionTFToMsg(quat, moveitPose.orientation);
   co.primitive_poses.push_back(moveitPose);
 }
@@ -188,7 +185,8 @@ void SpawnPlanningscene::publishObstacles()
       Pose pose;
       i.second()["shape"][0] >> box;
       i.second()["start_pose"] >> pose;
-      addBox(co, box, pose);
+      addBox(co, box);
+      addPose(co, box.pose, pose);
       co.operation = moveit_msgs::CollisionObject::REMOVE;
       pub_co->publish(co);
       co.operation = moveit_msgs::CollisionObject::ADD;
