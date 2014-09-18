@@ -11,8 +11,6 @@
 #include <fstream>
 #include <yaml-cpp/yaml.h>
 
-static const std::string ROBOT_DESCRIPTION = "robot_description";
-
 using namespace std;
 
 class SpawnPlanningscene
@@ -34,19 +32,22 @@ public:
   {
     BOX, PLANE, CYLINDER, HANDLE, OBSTACLE
   };
-  SpawnPlanningscene(ros::Publisher* pub_co);
-  void publish(PublishType type, string name);
+  SpawnPlanningscene(ros::Publisher*);
+  void publish(PublishType, string);
   void publishObjects();
   void publishObstacles();
   void spawnPlane();
-  void loadYaml(string yamlfile);
+  void loadYaml(string);
 
 private:
-  moveit_msgs::CollisionObject make_box(string name, Pose pose, Box dim);
-  moveit_msgs::CollisionObject make_plane(string name);
-  moveit_msgs::CollisionObject make_cylinder(string name, Pose pose, Cylinder dim);
-  moveit_msgs::CollisionObject make_handle(string name, Pose pose);
-  void extractRelevantNodes(YAML::Node &doc);
+  moveit_msgs::CollisionObject make_box(string, Pose, Box);
+  moveit_msgs::CollisionObject make_plane(string);
+  moveit_msgs::CollisionObject make_cylinder(string, Pose, Cylinder);
+  moveit_msgs::CollisionObject make_handle(string, Pose);
+  void extractRelevantNodes(YAML::Node&);
+  void publishObject(string, const YAML::Node&, const YAML::Node&);
+  void addBox(moveit_msgs::CollisionObject, const YAML::Node&, Pose);
+  void addCylinder(moveit_msgs::CollisionObject, const YAML::Node&, Pose);
   std::auto_ptr<YAML::Node> publicDescription;
   std::auto_ptr<YAML::Node> internalDescription;
   std::auto_ptr<YAML::Node> obstaclesInternal;
@@ -232,6 +233,50 @@ void SpawnPlanningscene::publish(PublishType type, string name)
       break;
 
   }
+}
+
+void SpawnPlanningscene::publishObjects()
+{
+  if (publicDescription.get() != NULL && internalDescription.get() != NULL)
+  {
+    const YAML::Node& objects = (*publicDescription);
+    for (YAML::Iterator i = objects.begin(); i != objects.end(); ++i)
+    {
+      std::string name;
+      i.first() >> name;
+      if (!(*internalDescription).FindValue(name))
+      {
+        continue;
+      }
+      publishObject(name, i.second(), (*internalDescription)[name.c_str()]);
+
+    }
+  }
+}
+
+void SpawnPlanningscene::publishObject(string name, const YAML::Node& publicObject, const YAML::Node& internalObject)
+{
+  moveit_msgs::CollisionObject co;
+  co.header.stamp = ros::Time::now();
+  co.header.frame_id = "/odom_combined";
+  co.operation = moveit_msgs::CollisionObject::ADD;
+  co.id = name;
+  const YAML::Node& shape = publicObject["shape"];
+  for (YAML::Iterator i = shape.begin(); i != shape.end(); ++i)
+  {
+    string type;
+    (*i)["type"] >> type;
+    Pose pose;
+    internalObject[name.c_str()]["start_pose"] >> pose;
+    if (type == "box")
+    {
+      addBox(co, *i, pose);
+    }
+    else if (type == "cylinder")
+    {
+      addCylinder(co, *i, pose);
+    }
+  }
   co.operation = moveit_msgs::CollisionObject::REMOVE;
   pub_co->publish(co);
 
@@ -239,12 +284,12 @@ void SpawnPlanningscene::publish(PublishType type, string name)
   pub_co->publish(co);
 }
 
-void SpawnPlanningscene::publishObjects()
-{
-  if (publicDescription.get() != NULL)
-  {
-    // TODO fill me
-  }
+void SpawnPlanningscene::addBox(moveit_msgs::CollisionObject co, const YAML::Node& node, Pose pose) {
+  // TODO
+}
+
+void SpawnPlanningscene::addCylinder(moveit_msgs::CollisionObject co, const YAML::Node& node, Pose pose){
+  // TODO
 }
 
 void SpawnPlanningscene::publishObstacles()
@@ -261,21 +306,6 @@ void SpawnPlanningscene::publishObstacles()
   }
 }
 
-void SpawnPlanningscene::spawnPlane()
-{
-//  publish(SpawnPlanningscene::PLANE, "plane");
-
-// or
-
-//  Pose p = {0, 0, -0.005, 0, 0, 0};
-//  Box b = {2, 2, 0};
-//  moveit_msgs::CollisionObject co = make_box("ground", p, b);
-//  co.operation = moveit_msgs::CollisionObject::REMOVE;
-//  pub_co->publish(co);
-//
-//  co.operation = moveit_msgs::CollisionObject::ADD;
-//  pub_co->publish(co);
-}
 
 void SpawnPlanningscene::loadYaml(string yamlfile)
 {
@@ -340,9 +370,9 @@ int main(int argc, char **argv)
   sps.loadYaml(map + ".yml");
   ros::WallDuration(0.5).sleep();
   sps.publishObjects();
-  sps.publish(SpawnPlanningscene::BOX, "red_cube");
-  sps.publish(SpawnPlanningscene::CYLINDER, "green_cylinder");
-  sps.publish(SpawnPlanningscene::HANDLE, "blue_handle");
+//  sps.publish(SpawnPlanningscene::BOX, "red_cube");
+//  sps.publish(SpawnPlanningscene::CYLINDER, "green_cylinder");
+//  sps.publish(SpawnPlanningscene::HANDLE, "blue_handle");
   sps.publishObstacles();
   ros::WallDuration(0.5).sleep();
 
