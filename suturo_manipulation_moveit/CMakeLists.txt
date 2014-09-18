@@ -8,6 +8,7 @@ find_package(catkin REQUIRED COMPONENTS
   actionlib 
   actionlib_msgs
   tf
+  suturo_perception_msgs
   moveit_ros_planning_interface
 )
 
