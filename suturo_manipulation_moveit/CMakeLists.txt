@@ -14,7 +14,7 @@ find_package(catkin REQUIRED COMPONENTS
 
 find_package(Eigen REQUIRED)
 
-catkin_package()
+catkin_package(CATKIN_DEPENDS suturo_perception_msgs)
 
 ###########
 ## Build ##
