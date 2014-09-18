@@ -36,12 +36,11 @@ public:
   void loadYaml(string);
 
 private:
-  moveit_msgs::CollisionObject make_handle(string, Pose);
   void extractRelevantNodes(YAML::Node&);
   void publishObject(string, const YAML::Node&, const YAML::Node&);
-  void addBox(moveit_msgs::CollisionObject&, Box);
-  void addCylinder(moveit_msgs::CollisionObject&, Cylinder);
-  void addPose(moveit_msgs::CollisionObject&, Pose, Pose);
+  void addBox(moveit_msgs::CollisionObject&, Box&);
+  void addCylinder(moveit_msgs::CollisionObject&, Cylinder&);
+  void addPose(moveit_msgs::CollisionObject&, Pose&, Pose&);
   std::auto_ptr<YAML::Node> publicDescription;
   std::auto_ptr<YAML::Node> internalDescription;
   std::auto_ptr<YAML::Node> obstaclesInternal;
@@ -133,7 +132,7 @@ void SpawnPlanningscene::publishObject(string name, const YAML::Node& publicObje
   pub_co->publish(co);
 }
 
-void SpawnPlanningscene::addBox(moveit_msgs::CollisionObject& co, Box box)
+void SpawnPlanningscene::addBox(moveit_msgs::CollisionObject& co, Box& box)
 {
   shape_msgs::SolidPrimitive moveitPrimitive;
   moveitPrimitive.type = shape_msgs::SolidPrimitive::BOX;
@@ -144,7 +143,7 @@ void SpawnPlanningscene::addBox(moveit_msgs::CollisionObject& co, Box box)
   co.primitives.push_back(moveitPrimitive);
 }
 
-void SpawnPlanningscene::addCylinder(moveit_msgs::CollisionObject& co, Cylinder cylinder)
+void SpawnPlanningscene::addCylinder(moveit_msgs::CollisionObject& co, Cylinder& cylinder)
 {
   shape_msgs::SolidPrimitive moveitPrimitive;
   moveitPrimitive.type = shape_msgs::SolidPrimitive::CYLINDER;
@@ -154,7 +153,7 @@ void SpawnPlanningscene::addCylinder(moveit_msgs::CollisionObject& co, Cylinder 
   co.primitives.push_back(moveitPrimitive);
 }
 
-void SpawnPlanningscene::addPose(moveit_msgs::CollisionObject& co, Pose relativePose, Pose absoultePose)
+void SpawnPlanningscene::addPose(moveit_msgs::CollisionObject& co, Pose& relativePose, Pose& absoultePose)
 {
   geometry_msgs::Pose moveitPose;
   tf::Vector3 offset(relativePose.x, relativePose.y, relativePose.z);
