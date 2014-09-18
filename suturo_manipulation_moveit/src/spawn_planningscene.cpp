@@ -194,7 +194,6 @@ void SpawnPlanningscene::publishObstacles()
   }
 }
 
-
 void SpawnPlanningscene::loadYaml(string yamlfile)
 {
   string includePath = "/opt/euroc_c2s1/scenes/" + yamlfile;
