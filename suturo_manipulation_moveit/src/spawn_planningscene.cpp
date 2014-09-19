@@ -151,16 +151,16 @@ void SpawnPlanningscene::addCylinder(moveit_msgs::CollisionObject& co, Cylinder&
   co.primitives.push_back(moveitPrimitive);
 }
 
-void SpawnPlanningscene::addPose(moveit_msgs::CollisionObject& co, Pose& relativePose, Pose& absoultePose)
+void SpawnPlanningscene::addPose(moveit_msgs::CollisionObject& co, Pose& relativePose, Pose& absolutePose)
 {
   geometry_msgs::Pose moveitPose;
   tf::Vector3 offset(relativePose.x, relativePose.y, relativePose.z);
   tf::Quaternion quat;
-  quat.setRPY(absoultePose.roll, absoultePose.pitch, absoultePose.yaw);
+  quat.setRPY(absolutePose.roll, absolutePose.pitch, absolutePose.yaw);
   tf::Vector3 rotatedOffset = tf::quatRotate(quat, offset);
-  moveitPose.position.x = absoultePose.x + rotatedOffset.x();
-  moveitPose.position.y = absoultePose.y + rotatedOffset.y();
-  moveitPose.position.z = absoultePose.z + rotatedOffset.z();
+  moveitPose.position.x = absolutePose.x + rotatedOffset.x();
+  moveitPose.position.y = absolutePose.y + rotatedOffset.y();
+  moveitPose.position.z = absolutePose.z + rotatedOffset.z();
   tf::quaternionTFToMsg(quat, moveitPose.orientation);
   co.primitive_poses.push_back(moveitPose);
 }
