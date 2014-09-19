@@ -36,6 +36,7 @@ int main(int argc, char **argv)
           ROS_INFO_STREAM("MPE unsuccessful");
           continue;
         }
+        ROS_INFO_STREAM("MPE SUCCESS");
         // Uncomment this if not set in msg, these params are needed!
 //        obj.mpe_object.id = "test";
 //        obj.mpe_object.header.stamp = ros::Time::now();
