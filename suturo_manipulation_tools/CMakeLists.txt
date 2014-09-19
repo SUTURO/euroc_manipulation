@@ -4,13 +4,14 @@ project(suturo_manipulation_tools)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   tf
+  suturo_msgs
   suturo_perception_msgs
   moveit_ros_planning_interface
 )
 
 find_package(Eigen REQUIRED)
 
-catkin_package(CATKIN_DEPENDS roscpp suturo_perception_msgs)
+catkin_package(CATKIN_DEPENDS roscpp suturo_perception_msgs suturo_msgs)
 
 ###########
 ## Build ##
