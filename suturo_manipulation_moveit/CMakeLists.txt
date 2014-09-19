@@ -8,13 +8,12 @@ find_package(catkin REQUIRED COMPONENTS
   actionlib 
   actionlib_msgs
   tf
-  suturo_perception_msgs
   moveit_ros_planning_interface
 )
 
 find_package(Eigen REQUIRED)
 
-catkin_package(CATKIN_DEPENDS suturo_perception_msgs)
+catkin_package()
 
 ###########
 ## Build ##
@@ -39,7 +38,6 @@ add_executable(base_controller src/base_controller.cpp)
 add_executable(arm_controller_servo src/arm_controller_servo.cpp)
 add_executable(gripper_controller src/gripper_controller.cpp)
 add_executable(spawn_planningscene src/spawn_planningscene.cpp)
-add_executable(perception_to_planningscene src/perception_to_planningscene.cpp)
 add_executable(publish_objects_tf_frames src/publish_objects_tf_frames.cpp)
 
 target_link_libraries(spawn_planningscene
@@ -57,7 +55,6 @@ add_dependencies(arm_controller_servo ${catkin_EXPORTED_TARGETS})
 add_dependencies(arm_base_controller ${catkin_EXPORTED_TARGETS})
 add_dependencies(gripper_controller ${catkin_EXPORTED_TARGETS})
 add_dependencies(spawn_planningscene ${catkin_EXPORTED_TARGETS})
-add_dependencies(perception_to_planningscene ${catkin_EXPORTED_TARGETS})
 add_dependencies(publish_objects_tf_frames ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
@@ -89,10 +86,6 @@ target_link_libraries(gripper_controller
 )
 
 target_link_libraries(spawn_planningscene
-  ${catkin_LIBRARIES}
-)
-
-target_link_libraries(perception_to_planningscene
   ${catkin_LIBRARIES}
 )
 
