@@ -155,15 +155,13 @@ void SpawnPlanningscene::addPose(moveit_msgs::CollisionObject& co, Pose& relativ
 {
   geometry_msgs::Pose moveitPose;
   tf::Vector3 offset(relativePose.x, relativePose.y, relativePose.z);
-  tf::Quaternion absoluteQuat;
-  absoluteQuat.setRPY(absolutePose.roll, absolutePose.pitch, absolutePose.yaw);
-  tf::Quaternion relativeQuat;
-  relativeQuat.setRPY(relativePose.roll, relativePose.pitch, relativePose.yaw);
-  tf::Vector3 rotatedOffset = tf::quatRotate(absoluteQuat, offset);
+  tf::Quaternion quat;
+  quat.setRPY(absolutePose.roll, absolutePose.pitch, absolutePose.yaw);
+  tf::Vector3 rotatedOffset = tf::quatRotate(quat, offset);
   moveitPose.position.x = absolutePose.x + rotatedOffset.x();
   moveitPose.position.y = absolutePose.y + rotatedOffset.y();
   moveitPose.position.z = absolutePose.z + rotatedOffset.z();
-  tf::quaternionTFToMsg(relativeQuat.inverse() * absoluteQuat, moveitPose.orientation);
+  tf::quaternionTFToMsg(quat, moveitPose.orientation);
   co.primitive_poses.push_back(moveitPose);
 }
 
