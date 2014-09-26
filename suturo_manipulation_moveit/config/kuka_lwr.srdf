@@ -68,6 +68,15 @@
         <joint name="lwr_joint_6" value="-1.2936151889855079"/>
         <joint name="lwr_joint_7" value="-1.5702209749643408"/>
     </group_state>
+    <group_state name="t1_red_cube" group="arm">
+        <joint name="lwr_joint_1" value="-2.3"/>
+        <joint name="lwr_joint_2" value="1.022521626960062"/>
+        <joint name="lwr_joint_3" value="0.0"/>
+        <joint name="lwr_joint_4" value="1.9881264555823748"/>
+        <joint name="lwr_joint_5" value="0.0"/>
+        <joint name="lwr_joint_6" value="-1.6635239727601192"/>
+        <joint name="lwr_joint_7" value="-1.57"/>
+    </group_state>    
     <group_state name="t1_green_cylinder" group="arm">
         <joint name="lwr_joint_1" value="-2.916116952896118"/>
         <joint name="lwr_joint_2" value="0.4460616707801819"/>
@@ -76,6 +85,15 @@
         <joint name="lwr_joint_5" value="-0.3193741440773011"/>
         <joint name="lwr_joint_6" value="-1.2964283227920532"/>
         <joint name="lwr_joint_7" value="-1.7419159412384033"/>
+    </group_state>
+    <group_state name="t1_blue_handle" group="arm">
+        <joint name="lwr_joint_1" value="-2.95458722114563"/>
+        <joint name="lwr_joint_2" value="0.7860657572746277"/>
+        <joint name="lwr_joint_3" value="-1.212088704109192"/>
+        <joint name="lwr_joint_4" value="1.8950088024139404"/>
+        <joint name="lwr_joint_5" value="-0.722507119178772"/>
+        <joint name="lwr_joint_6" value="-1.2464029788970947"/>
+        <joint name="lwr_joint_7" value="-1.5055464506149292"/>
     </group_state>
     <group_state name="home_pose" group="base">
         <joint name="axis_x" value="0" />
