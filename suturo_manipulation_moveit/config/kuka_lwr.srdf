@@ -68,6 +68,15 @@
         <joint name="lwr_joint_6" value="-1.2936151889855079"/>
         <joint name="lwr_joint_7" value="-1.5702209749643408"/>
     </group_state>
+    <group_state name="t1_green_cylinder" group="arm">
+        <joint name="lwr_joint_1" value="-2.916116952896118"/>
+        <joint name="lwr_joint_2" value="0.4460616707801819"/>
+        <joint name="lwr_joint_3" value="-0.4954688847064972"/>
+        <joint name="lwr_joint_4" value="1.863919973373413"/>
+        <joint name="lwr_joint_5" value="-0.3193741440773011"/>
+        <joint name="lwr_joint_6" value="-1.2964283227920532"/>
+        <joint name="lwr_joint_7" value="-1.7419159412384033"/>
+    </group_state>
     <group_state name="home_pose" group="base">
         <joint name="axis_x" value="0" />
         <joint name="axis_y" value="0" />
