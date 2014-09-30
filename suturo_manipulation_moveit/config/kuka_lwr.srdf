@@ -59,6 +59,15 @@
         <joint name="lwr_joint_6" value="-1.6635239727601192"/>
         <joint name="lwr_joint_7" value="-1.57"/>
     </group_state>
+    <group_state name="scan_pose3" group="arm">
+        <joint name="lwr_joint_1" value="1.57"/>
+        <joint name="lwr_joint_2" value="1.022521626960062"/>
+        <joint name="lwr_joint_3" value="0.0"/>
+        <joint name="lwr_joint_4" value="1.9881264555823748"/>
+        <joint name="lwr_joint_5" value="0.0"/>
+        <joint name="lwr_joint_6" value="-1.6635239727601192"/>
+        <joint name="lwr_joint_7" value="-1.57"/>
+    </group_state>
     <group_state name="scan_pose2" group="arm">
         <joint name="lwr_joint_1" value="-2.2999823983011902"/>
         <joint name="lwr_joint_2" value="0.6682554869967867"/>
