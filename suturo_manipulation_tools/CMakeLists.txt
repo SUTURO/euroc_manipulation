@@ -22,7 +22,7 @@ if(NOT DEFINED ENV{BUILD_NUMBER})
 	## Specify additional locations of header files
 	## Your package locations should be listed before other locations
 	# include_directories(include)
-	include_directories(SYSTEM ${Boost_INCLUDE_DIR} ${EIGEN_INCLUDE_DIRS})
+	include_directories(SYSTEM ${catkin_INCLUDE_DIRS} ${Boost_INCLUDE_DIR} ${EIGEN_INCLUDE_DIRS})
 	
 	add_executable(perception_to_planningscene src/perception_to_planningscene.cpp)
 	
@@ -30,6 +30,7 @@ if(NOT DEFINED ENV{BUILD_NUMBER})
 	## as an example, message headers may need to be generated before nodes
 	# add_dependencies(state_publisher_node state_publisher_generate_messages_cpp)
 	add_dependencies(perception_to_planningscene ${catkin_EXPORTED_TARGETS} suturo_perception_msgs_gencpp suturo_msgs_gencpp)
+	add_dependencies(perception_to_planningscene suturo_perception_msgs_generate_messages_cpp suturo_msgs_generate_messages_cpp)
 	
 	target_link_libraries(perception_to_planningscene
 	  ${catkin_LIBRARIES}
