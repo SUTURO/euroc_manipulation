@@ -382,7 +382,7 @@
     <child link="lwr_base_x"/>
     <origin rpy="0 0 0" xyz="0 0 0.005"/>
     <axis xyz="1.0 0 0"/>
-    <limit velocity="1.6" effort="150" lower="-0.9" upper="0.9"/>
+    <limit velocity="1.5" effort="100" lower="-0.9" upper="0.9"/>
   </joint>
 
   <joint type="prismatic" name="axis_y">
@@ -390,7 +390,7 @@
     <child link="lwr_base_y"/>
     <origin rpy="0 0 0" xyz="0 0 0"/>
     <axis xyz="0 1.0 0"/>
-    <limit velocity="1.6" effort="150" lower="-0.9" upper="0.9"/>
+    <limit velocity="1.5" effort="100" lower="-0.9" upper="0.9"/>
   </joint>
 
 </robot>

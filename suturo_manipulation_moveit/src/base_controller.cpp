@@ -42,6 +42,8 @@ void goal_call_back(Server::GoalHandle gh)
 
     move_along_joint_path_client.call(move_along_joint_path_srv);
     std::string &move_error_message = move_along_joint_path_srv.response.error_message;
+    std::string &move_stop_message = move_along_joint_path_srv.response.stop_reason;
+    ROS_INFO_STREAM("stop reason: " + move_stop_message);
     if (!move_error_message.empty())
     {
         ROS_ERROR_STREAM("Move failed: " + move_error_message);

@@ -51,7 +51,8 @@ void set_gripper_pos(const control_msgs::GripperCommandGoalConstPtr &goal, ros::
 
     move_along_joint_path_client.call(move_along_joint_path_srv);
     std::string &move_error_message = move_along_joint_path_srv.response.error_message;
-
+    std::string &move_stop_message = move_along_joint_path_srv.response.stop_reason;
+    ROS_INFO_STREAM("stop reason: " + move_stop_message);
     // enable_servo_mode(true);
     if (!move_error_message.empty())
     {
