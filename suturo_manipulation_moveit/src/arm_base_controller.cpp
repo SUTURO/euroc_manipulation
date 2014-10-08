@@ -16,6 +16,7 @@ ros::ServiceClient move_along_joint_path_client;
 void goal_call_back(Server::GoalHandle gh)
 {
     gh.setAccepted();
+    ROS_INFO_STREAM("Got request.");
     control_msgs::FollowJointTrajectoryGoal goal = *gh.getGoal();
     euroc_c2_msgs::MoveAlongJointPath move_along_joint_path_srv;
     move_along_joint_path_srv.request.joint_names = goal.trajectory.joint_names;
@@ -55,7 +56,7 @@ void goal_call_back(Server::GoalHandle gh)
     move_along_joint_path_srv.request.tcp_limits.translational = limits_trans;
     move_along_joint_path_srv.request.tcp_limits.rotational = limits_rota;
 
-
+    // ROS_INFO_STREAM(move_along_joint_path_srv.request);
     move_along_joint_path_client.call(move_along_joint_path_srv);
     std::string &move_error_message = move_along_joint_path_srv.response.error_message;
     if (!move_error_message.empty())
@@ -63,6 +64,7 @@ void goal_call_back(Server::GoalHandle gh)
         ROS_ERROR_STREAM("Move failed: " + move_error_message);
         gh.setAborted();
     }
+    ROS_INFO_STREAM("Error Message: " + move_error_message);
     gh.setSucceeded();
 }
 

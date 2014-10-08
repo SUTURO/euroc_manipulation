@@ -26,6 +26,8 @@ void enable_servo_mode(bool muh)
 void set_gripper_pos(const control_msgs::GripperCommandGoalConstPtr &goal, ros::NodeHandle *nh, Server *server_gripper)
 {
     // enable_servo_mode(false);
+    ROS_INFO_STREAM("Got Gripper request.");
+
     euroc_c2_msgs::MoveAlongJointPath move_along_joint_path_srv;
     move_along_joint_path_srv.request.joint_names.push_back("gripper");
 
@@ -56,6 +58,7 @@ void set_gripper_pos(const control_msgs::GripperCommandGoalConstPtr &goal, ros::
         std::cout << "Move failed: " + move_error_message << std::endl;
         server_gripper->setAborted();
     }
+    ROS_INFO_STREAM("Error Message: " + move_error_message);
     server_gripper->setSucceeded();
 }
 
