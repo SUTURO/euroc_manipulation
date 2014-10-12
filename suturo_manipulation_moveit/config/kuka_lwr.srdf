@@ -186,4 +186,31 @@
         <joint name="lwr_joint_6" value="-0.00000050501030613261" />
         <joint name="lwr_joint_7" value="0.00000000040236355721" />
     </group_state>
+    <group_state name="t1_v2_cyan_cylinder" group="arm">
+        <joint name="lwr_joint_1" value="0.25073525309562683105" />
+        <joint name="lwr_joint_2" value="1.02221953868865966797" />
+        <joint name="lwr_joint_3" value="0.00003838078919216059" />
+        <joint name="lwr_joint_4" value="1.98852515220642089844" />
+        <joint name="lwr_joint_5" value="-0.00010299777932232246" />
+        <joint name="lwr_joint_6" value="-1.66356706619262695312" />
+        <joint name="lwr_joint_7" value="-1.57013761997222900391" />
+    </group_state>
+    <group_state name="t1_v2_red_cube" group="arm">
+        <joint name="lwr_joint_1" value="-0.73221498727798461914" />
+        <joint name="lwr_joint_2" value="0.72901117801666270868" />
+        <joint name="lwr_joint_3" value="-0.00028312799986451864" />
+        <joint name="lwr_joint_4" value="2.08525085449218750000" />
+        <joint name="lwr_joint_5" value="-0.00008406080451095477" />
+        <joint name="lwr_joint_6" value="-1.40993022918701171875" />
+        <joint name="lwr_joint_7" value="-1.57012820243835449219" />
+    </group_state>
+    <group_state name="t1_v2_yellow_handle" group="arm">
+        <joint name="lwr_joint_1" value="2.46344757080078125000" />
+        <joint name="lwr_joint_2" value="0.77986329793930053711" />
+        <joint name="lwr_joint_3" value="-0.00008150642679538578" />
+        <joint name="lwr_joint_4" value="1.89887261390686035156" />
+        <joint name="lwr_joint_5" value="-0.00032725257915444678" />
+        <joint name="lwr_joint_6" value="-1.47192788124084472656" />
+        <joint name="lwr_joint_7" value="-1.57020270824432373047" />
+    </group_state>
 </robot>
