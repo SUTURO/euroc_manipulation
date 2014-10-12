@@ -51,82 +51,76 @@
         <joint name="joint_before_finger2" value="0.035" />
     </group_state>
     <group_state name="scan_pose1" group="arm">
-        <joint name="lwr_joint_1" value="-2.3"/>
-        <joint name="lwr_joint_2" value="1.022521626960062"/>
-        <joint name="lwr_joint_3" value="0.0"/>
-        <joint name="lwr_joint_4" value="1.9881264555823748"/>
-        <joint name="lwr_joint_5" value="0.0"/>
-        <joint name="lwr_joint_6" value="-1.6635239727601192"/>
-        <joint name="lwr_joint_7" value="-1.57"/>
+        <joint name="lwr_joint_1" value="-2.3" />
+        <joint name="lwr_joint_2" value="1.022521626960062" />
+        <joint name="lwr_joint_3" value="0.0" />
+        <joint name="lwr_joint_4" value="1.9881264555823748" />
+        <joint name="lwr_joint_5" value="0.0" />
+        <joint name="lwr_joint_6" value="-1.6635239727601192" />
+        <joint name="lwr_joint_7" value="-1.57" />
     </group_state>
     <group_state name="scan_pose3" group="arm">
-        <joint name="lwr_joint_1" value="1.57"/>
-        <joint name="lwr_joint_2" value="1.022521626960062"/>
-        <joint name="lwr_joint_3" value="0.0"/>
-        <joint name="lwr_joint_4" value="1.9881264555823748"/>
-        <joint name="lwr_joint_5" value="0.0"/>
-        <joint name="lwr_joint_6" value="-1.6635239727601192"/>
-        <joint name="lwr_joint_7" value="-1.57"/>
+        <joint name="lwr_joint_1" value="1.57" />
+        <joint name="lwr_joint_2" value="1.022521626960062" />
+        <joint name="lwr_joint_3" value="0.0" />
+        <joint name="lwr_joint_4" value="1.9881264555823748" />
+        <joint name="lwr_joint_5" value="0.0" />
+        <joint name="lwr_joint_6" value="-1.6635239727601192" />
+        <joint name="lwr_joint_7" value="-1.57" />
     </group_state>
     <group_state name="scan_pose2" group="arm">
-        <joint name="lwr_joint_1" value="-2.2999823983011902"/>
-        <joint name="lwr_joint_2" value="0.6682554869967867"/>
-        <joint name="lwr_joint_3" value="-0.00028890183854732017"/>
-        <joint name="lwr_joint_4" value="1.783544716419669"/>
-        <joint name="lwr_joint_5" value="-0.00013089489233999784"/>
-        <joint name="lwr_joint_6" value="-1.2936151889855079"/>
-        <joint name="lwr_joint_7" value="-1.5702209749643408"/>
+        <joint name="lwr_joint_1" value="-2.2999823983011902" />
+        <joint name="lwr_joint_2" value="0.6682554869967867" />
+        <joint name="lwr_joint_3" value="-0.00028890183854732017" />
+        <joint name="lwr_joint_4" value="1.783544716419669" />
+        <joint name="lwr_joint_5" value="-0.00013089489233999784" />
+        <joint name="lwr_joint_6" value="-1.2936151889855079" />
+        <joint name="lwr_joint_7" value="-1.5702209749643408" />
     </group_state>
     <group_state name="t1_red_cube" group="arm">
-        <joint name="lwr_joint_1" value="-2.3"/>
-        <joint name="lwr_joint_2" value="1.022521626960062"/>
-        <joint name="lwr_joint_3" value="0.0"/>
-        <joint name="lwr_joint_4" value="1.9881264555823748"/>
-        <joint name="lwr_joint_5" value="0.0"/>
-        <joint name="lwr_joint_6" value="-1.6635239727601192"/>
-        <joint name="lwr_joint_7" value="-1.57"/>
-    </group_state>    
+        <joint name="lwr_joint_1" value="-2.3" />
+        <joint name="lwr_joint_2" value="1.022521626960062" />
+        <joint name="lwr_joint_3" value="0.0" />
+        <joint name="lwr_joint_4" value="1.9881264555823748" />
+        <joint name="lwr_joint_5" value="0.0" />
+        <joint name="lwr_joint_6" value="-1.6635239727601192" />
+        <joint name="lwr_joint_7" value="-1.57" />
+    </group_state>
     <group_state name="t1_green_cylinder" group="arm">
-        <joint name="lwr_joint_1" value="-2.916116952896118"/>
-        <joint name="lwr_joint_2" value="0.4460616707801819"/>
-        <joint name="lwr_joint_3" value="-0.4954688847064972"/>
-        <joint name="lwr_joint_4" value="1.863919973373413"/>
-        <joint name="lwr_joint_5" value="-0.3193741440773011"/>
-        <joint name="lwr_joint_6" value="-1.2964283227920532"/>
-        <joint name="lwr_joint_7" value="-1.7419159412384033"/>
+        <joint name="lwr_joint_1" value="-2.916116952896118" />
+        <joint name="lwr_joint_2" value="0.4460616707801819" />
+        <joint name="lwr_joint_3" value="-0.4954688847064972" />
+        <joint name="lwr_joint_4" value="1.863919973373413" />
+        <joint name="lwr_joint_5" value="-0.3193741440773011" />
+        <joint name="lwr_joint_6" value="-1.2964283227920532" />
+        <joint name="lwr_joint_7" value="-1.7419159412384033" />
     </group_state>
     <group_state name="t1_blue_handle" group="arm">
-        <joint name="lwr_joint_1" value="-2.95458722114563"/>
-        <joint name="lwr_joint_2" value="0.7860657572746277"/>
-        <joint name="lwr_joint_3" value="-1.212088704109192"/>
-        <joint name="lwr_joint_4" value="1.8950088024139404"/>
-        <joint name="lwr_joint_5" value="-0.722507119178772"/>
-        <joint name="lwr_joint_6" value="-1.2464029788970947"/>
-        <joint name="lwr_joint_7" value="-1.5055464506149292"/>
+        <joint name="lwr_joint_1" value="-2.95458722114563" />
+        <joint name="lwr_joint_2" value="0.7860657572746277" />
+        <joint name="lwr_joint_3" value="-1.212088704109192" />
+        <joint name="lwr_joint_4" value="1.8950088024139404" />
+        <joint name="lwr_joint_5" value="-0.722507119178772" />
+        <joint name="lwr_joint_6" value="-1.2464029788970947" />
+        <joint name="lwr_joint_7" value="-1.5055464506149292" />
     </group_state>
     <group_state name="scan_conveyor_pose1" group="arm">
-        <joint name="lwr_joint_1" value="-1.896034836769104"/>
-        <joint name="lwr_joint_2" value="-0.39807915687561035"/>
-        <joint name="lwr_joint_3" value="-1.5676475763320923"/>
-        <joint name="lwr_joint_4" value="-1.6419428586959839"/>
-        <joint name="lwr_joint_5" value="0.44981706142425537"/>
-        <joint name="lwr_joint_6" value="1.6913477182388306"/>
-        <joint name="lwr_joint_7" value="-0.07758177816867828"/>
-    </group_state>
-    <group_state name="home_pose" group="base">
-        <joint name="axis_x" value="0" />
-        <joint name="axis_y" value="0" />
+        <joint name="lwr_joint_1" value="-1.896034836769104" />
+        <joint name="lwr_joint_2" value="-0.39807915687561035" />
+        <joint name="lwr_joint_3" value="-1.5676475763320923" />
+        <joint name="lwr_joint_4" value="-1.6419428586959839" />
+        <joint name="lwr_joint_5" value="0.44981706142425537" />
+        <joint name="lwr_joint_6" value="1.6913477182388306" />
+        <joint name="lwr_joint_7" value="-0.07758177816867828" />
     </group_state>
     <group_state name="in_front_of_cyl_object" group="base">
         <joint name="axis_x" value="-0.4" />
         <joint name="axis_y" value="0.1" />
     </group_state>
-
     <group_state name="behind_cyl_object" group="base">
         <joint name="axis_x" value="-0.7" />
         <joint name="axis_y" value="0.1" />
     </group_state>
-
     <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
     <end_effector name="eef" parent_link="link7" group="arm" />
     <!--VIRTUAL JOINT: Purpose: this element defines a virtual joint between a robot link and an external frame of reference (considered fixed with respect to the robot)-->
@@ -183,4 +177,13 @@
     <disable_collisions link1="link5" link2="link7" reason="Never" />
     <disable_collisions link1="link5" link2="link6" reason="Adjacent" />
     <disable_collisions link1="link6" link2="link7" reason="Adjacent" />
+    <group_state name="home_pose" group="arm">
+        <joint name="lwr_joint_1" value="-0.00000000236763926910" />
+        <joint name="lwr_joint_2" value="-0.00000330847184266267" />
+        <joint name="lwr_joint_3" value="-0.00000000614384057659" />
+        <joint name="lwr_joint_4" value="0.00000259337769031967" />
+        <joint name="lwr_joint_5" value="-0.00000002649978452930" />
+        <joint name="lwr_joint_6" value="-0.00000050501030613261" />
+        <joint name="lwr_joint_7" value="0.00000000040236355721" />
+    </group_state>
 </robot>
