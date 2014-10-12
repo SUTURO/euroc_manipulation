@@ -7,7 +7,7 @@
 
 using namespace std;
 
-const char* kukaFile;
+string kukaFile;
 
 void writeJoints(TiXmlElement* groupStateElement, map<string, double>& joints)
 {
@@ -27,7 +27,7 @@ void writeSRDF(const string filename, const string poseName, map<string, double>
   TiXmlDocument doc(filename);
   if (!doc.LoadFile())
   {
-    printf("File could not be loaded.\n");
+    printf("File %s could not be loaded.\n", filename.c_str());
     return;
   }
 
@@ -92,11 +92,10 @@ void jointCallback(const sensor_msgs::JointState &state)
   }
   if (answer == 'w')
   {
-    string srdf(kukaFile);
     string name;
     printf("Specify the name of the pose: ");
     cin >> name;
-    writeSRDF(srdf, name, joints);
+    writeSRDF(kukaFile, name, joints);
     exit(EXIT_SUCCESS);
   }
   if (answer != '\n')
@@ -116,11 +115,11 @@ int main(int argc, char **argv)
     ws = ws.substr(0, ws.rfind("/"));
     ws += "/src/euroc_manipulation/suturo_manipulation_moveit/config/kuka_lwr.srdf";
     printf("No srdf file specified, using %s\n", ws.c_str());
-    kukaFile = ws.c_str();
+    kukaFile = ws;
   }
   else
   {
-    kukaFile = argv[1];
+    kukaFile = string(argv[1]);
   }
   printf("Listening for joint states...\n");
   ros::NodeHandle nh;
