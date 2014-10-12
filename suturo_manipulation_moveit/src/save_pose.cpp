@@ -111,7 +111,7 @@ int main(int argc, char **argv)
   ros::init(argc, argv, "save_pose");
   if (argc < 2)
   {
-    string ws = boost::filesystem::current_path().string();
+    string ws(argv[0]);
     ws = ws.substr(0, ws.rfind("/lib"));
     ws = ws.substr(0, ws.rfind("/"));
     ws += "/src/euroc_manipulation/suturo_manipulation_moveit/config/kuka_lwr.srdf";
