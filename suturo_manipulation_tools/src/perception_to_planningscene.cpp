@@ -6,7 +6,7 @@
 #include <moveit/planning_scene_interface/planning_scene_interface.h>
 
 #include <moveit_msgs/CollisionObject.h>
-#include "suturo_perception_msgs/GetGripper.h"
+#include <suturo_perception_msgs/GetGripper.h>
 
 using namespace std;
 

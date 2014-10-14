@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(suturo_manipulation_tools)
 
-if(NOT DEFINED ENV{BUILD_NUMBER})
+#if(NOT DEFINED ENV{BUILD_NUMBER})
 
 	find_package(catkin REQUIRED COMPONENTS
 	  roscpp
@@ -29,11 +29,10 @@ if(NOT DEFINED ENV{BUILD_NUMBER})
 	## Add cmake target dependencies of the executable/library
 	## as an example, message headers may need to be generated before nodes
 	# add_dependencies(state_publisher_node state_publisher_generate_messages_cpp)
-	add_dependencies(perception_to_planningscene ${catkin_EXPORTED_TARGETS} suturo_perception_msgs_gencpp suturo_msgs_gencpp)
-	add_dependencies(perception_to_planningscene suturo_perception_msgs_generate_messages_cpp suturo_msgs_generate_messages_cpp)
+	add_dependencies(perception_to_planningscene ${catkin_EXPORTED_TARGETS} suturo_perception_msgs_generate_messages_cpp suturo_msgs_generate_messages_cpp)
 	
 	target_link_libraries(perception_to_planningscene
 	  ${catkin_LIBRARIES}
 	)
 
-endif(NOT DEFINED ENV{BUILD_NUMBER})
+#endif(NOT DEFINED ENV{BUILD_NUMBER})
