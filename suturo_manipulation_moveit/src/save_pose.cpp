@@ -68,7 +68,7 @@ void writeSRDF(const string filename, const string poseName, map<string, double>
   robot->LinkEndChild(groupState);
   groupState->SetAttribute("name", poseName);
   // TODO hardcoded group?
-  groupState->SetAttribute("group", "arm");
+  groupState->SetAttribute("group", "arm_base");
   writeJoints(groupState, joints);
   doc.SaveFile(filename);
 }
@@ -79,7 +79,7 @@ void jointCallback(const sensor_msgs::JointState &state)
   for (int i = 0; i < state.name.size(); i++)
   {
     string jointName = state.name[i];
-    if (jointName.find("lwr") != jointName.npos)
+    if (jointName.find("lwr") != jointName.npos || jointName.find("axis") != jointName.npos)
     {
       joints[jointName] = state.position[i];
     }
