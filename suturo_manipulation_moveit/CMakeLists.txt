@@ -2,13 +2,13 @@ cmake_minimum_required(VERSION 2.8.3)
 project(suturo_manipulation_moveit)
 
 find_package(catkin REQUIRED COMPONENTS
-  euroc_c2_msgs
   roscpp
   rospy
   actionlib 
   actionlib_msgs
   tf
   moveit_ros_planning_interface
+  euroc_c2_msgs
 )
 
 find_package(Eigen REQUIRED)
@@ -50,11 +50,11 @@ target_link_libraries(spawn_planningscene
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
 # add_dependencies(state_publisher_node state_publisher_generate_messages_cpp)
-add_dependencies(arm_controller ${catkin_EXPORTED_TARGETS})
-add_dependencies(base_controller ${catkin_EXPORTED_TARGETS})
-add_dependencies(arm_controller_servo ${catkin_EXPORTED_TARGETS})
-add_dependencies(arm_base_controller ${catkin_EXPORTED_TARGETS})
-add_dependencies(gripper_controller ${catkin_EXPORTED_TARGETS})
+add_dependencies(arm_controller ${catkin_EXPORTED_TARGETS} euroc_c2_msgs_generate_messages_cpp)
+add_dependencies(base_controller ${catkin_EXPORTED_TARGETS} euroc_c2_msgs_generate_messages_cpp)
+add_dependencies(arm_controller_servo ${catkin_EXPORTED_TARGETS} euroc_c2_msgs_generate_messages_cpp)
+add_dependencies(arm_base_controller ${catkin_EXPORTED_TARGETS} euroc_c2_msgs_generate_messages_cpp)
+add_dependencies(gripper_controller ${catkin_EXPORTED_TARGETS} euroc_c2_msgs_generate_messages_cpp)
 add_dependencies(spawn_planningscene ${catkin_EXPORTED_TARGETS})
 add_dependencies(save_pose ${catkin_EXPORTED_TARGETS})
 add_dependencies(publish_objects_tf_frames ${catkin_EXPORTED_TARGETS})
