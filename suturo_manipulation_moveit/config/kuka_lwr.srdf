@@ -246,4 +246,15 @@
         <joint name="lwr_joint_6" value="-0.61853781023566045683" />
         <joint name="lwr_joint_7" value="2.70491299243525640250" />
     </group_state>
+    <group_state name="failed_red_cube_task1_v3suturo" group="arm_base">
+        <joint name="axis_x" value="-0.00000104084472241084" />
+        <joint name="axis_y" value="-0.00000587699651077855" />
+        <joint name="lwr_joint_1" value="1.08251476287841796875" />
+        <joint name="lwr_joint_2" value="2.00758504867553710938" />
+        <joint name="lwr_joint_3" value="-0.87754273414611816406" />
+        <joint name="lwr_joint_4" value="2.02928996086120605469" />
+        <joint name="lwr_joint_5" value="-0.96111142635345458984" />
+        <joint name="lwr_joint_6" value="-1.70003414154052734375" />
+        <joint name="lwr_joint_7" value="-2.23725390434265136719" />
+    </group_state>
 </robot>
