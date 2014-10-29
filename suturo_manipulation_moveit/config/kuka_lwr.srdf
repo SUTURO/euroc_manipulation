@@ -275,4 +275,26 @@
         <joint name="lwr_joint_6" value="-1.44147717952728271484" />
         <joint name="lwr_joint_7" value="-1.43775439262390136719" />
     </group_state>
+    <group_state name="t4_v1_1_red_cube_no_drive" group="arm_base">
+        <joint name="axis_x" value="0.00000389858450944303" />
+        <joint name="axis_y" value="0.00000193399864656385" />
+        <joint name="lwr_joint_1" value="-0.29698616221529844372" />
+        <joint name="lwr_joint_2" value="-1.20985170313535439490" />
+        <joint name="lwr_joint_3" value="-0.62751739353076896322" />
+        <joint name="lwr_joint_4" value="0.72426116186568345601" />
+        <joint name="lwr_joint_5" value="2.78987802410106811024" />
+        <joint name="lwr_joint_6" value="1.53539982757027826388" />
+        <joint name="lwr_joint_7" value="0.15717114718512675831" />
+    </group_state>
+    <group_state name="t4_v1_1_fucking_perception" group="arm_base">
+        <joint name="axis_x" value="-0.33700478076934814453" />
+        <joint name="axis_y" value="-0.08734433352947235107" />
+        <joint name="lwr_joint_1" value="-2.81028708770853885568" />
+        <joint name="lwr_joint_2" value="1.50258974126161826135" />
+        <joint name="lwr_joint_3" value="-1.93802552551166495931" />
+        <joint name="lwr_joint_4" value="0.47986700850913127647" />
+        <joint name="lwr_joint_5" value="1.07168425464611161146" />
+        <joint name="lwr_joint_6" value="1.19916764220650873263" />
+        <joint name="lwr_joint_7" value="2.96000275226191655875" />
+    </group_state>
 </robot>
