@@ -257,4 +257,22 @@
         <joint name="lwr_joint_6" value="-1.70003414154052734375" />
         <joint name="lwr_joint_7" value="-2.23725390434265136719" />
     </group_state>
+    <group_state name="shadow_pose1" group="arm">
+        <joint name="lwr_joint_1" value="-2.36950707435607910156" />
+        <joint name="lwr_joint_2" value="1.05131983757019042969" />
+        <joint name="lwr_joint_3" value="0.22662630677223208342" />
+        <joint name="lwr_joint_4" value="1.98280143737792968750" />
+        <joint name="lwr_joint_5" value="0.15004070103168487549" />
+        <joint name="lwr_joint_6" value="-1.67942214012145996094" />
+        <joint name="lwr_joint_7" value="-1.41796052455902099609" />
+    </group_state>
+    <group_state name="shadow_pose2" group="arm">
+        <joint name="lwr_joint_1" value="-2.51201343536376953125" />
+        <joint name="lwr_joint_2" value="0.38512131571769719907" />
+        <joint name="lwr_joint_3" value="0.32080250978469848633" />
+        <joint name="lwr_joint_4" value="1.46891415119171142578" />
+        <joint name="lwr_joint_5" value="0.04960785061120986938" />
+        <joint name="lwr_joint_6" value="-1.44147717952728271484" />
+        <joint name="lwr_joint_7" value="-1.43775439262390136719" />
+    </group_state>
 </robot>
