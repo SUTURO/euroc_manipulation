@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+<robot name="mast">
+  <link name="mast_base_link"/>
+
+  <link name="cm"/>
+
+  <link name="pt_base"/>
+
+  <link name="pt"/>
+
+  <link name="srgb"/>
+
+  <link name="sdepth"/>
+
+  <joint type="fixed" name="base_joint">
+    <parent link="base_link"/>
+    <child link="base"/>
+  </joint>
+
+</robot>
