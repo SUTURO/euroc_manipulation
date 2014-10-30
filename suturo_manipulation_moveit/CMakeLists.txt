@@ -9,11 +9,21 @@ find_package(catkin REQUIRED COMPONENTS
   tf
   moveit_ros_planning_interface
   euroc_c2_msgs
+  sensor_msgs
+  std_msgs
+  suturo_manipulation_msgs
+  suturo_msgs
 )
 
 find_package(Eigen REQUIRED)
 
-catkin_package()
+catkin_package(
+  INCLUDE_DIRS include
+  # LIBRARIES perception_utils
+  CATKIN_DEPENDS roscpp sensor_msgs std_msgs suturo_manipulation_msgs suturo_msgs
+  # DEPENDS opencv pcl
+)
+
 
 ###########
 ## Build ##
@@ -22,16 +32,27 @@ catkin_package()
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 # include_directories(include)
-include_directories(SYSTEM ${Boost_INCLUDE_DIR} ${EIGEN_INCLUDE_DIRS})
+# include_directories()
+include_directories(
+  SYSTEM 
+  ${Boost_INCLUDE_DIR} 
+  ${EIGEN_INCLUDE_DIRS}
+  include
+  # hack_for_groovy
+#  ${EIGEN_INCLUDE_DIRS}
+  ${catkin_INCLUDE_DIRS}
+)
 
 ## Declare a cpp library
 # add_library(state_publisher
 #   src/${PROJECT_NAME}/state_publisher.cpp
 # )
-
+set(suturo_manipulation_muh
+  include/suturo_manipulation_moveit/node_status.hpp
+)
 ## Declare a cpp executable
 # add_executable(state_publisher_node src/state_publisher_node.cpp)
-add_executable(telemetry_to_joint_state src/telemetry-to-joint-state.cpp)
+add_executable(telemetry_to_joint_state src/telemetry-to-joint-state.cpp ${suturo_manipulation_muh})
 add_executable(arm_controller src/arm_controller.cpp)
 add_executable(arm_base_controller src/arm_base_controller.cpp)
 add_executable(base_controller src/base_controller.cpp)
@@ -39,7 +60,7 @@ add_executable(arm_controller_servo src/arm_controller_servo.cpp)
 add_executable(gripper_controller src/gripper_controller.cpp)
 add_executable(spawn_planningscene src/spawn_planningscene.cpp)
 add_executable(save_pose src/save_pose.cpp)
-add_executable(publish_objects_tf_frames src/publish_objects_tf_frames.cpp)
+add_executable(publish_objects_tf_frames src/publish_objects_tf_frames.cpp ${suturo_manipulation_muh})
 
 target_link_libraries(spawn_planningscene
   ${catkin_LIBRARIES}
@@ -58,6 +79,7 @@ add_dependencies(gripper_controller ${catkin_EXPORTED_TARGETS} euroc_c2_msgs_gen
 add_dependencies(spawn_planningscene ${catkin_EXPORTED_TARGETS})
 add_dependencies(save_pose ${catkin_EXPORTED_TARGETS})
 add_dependencies(publish_objects_tf_frames ${catkin_EXPORTED_TARGETS})
+add_dependencies(telemetry_to_joint_state ${catkin_EXPORTED_TARGETS} suturo_manipulation_msgs)
 
 ## Specify libraries to link a library or executable target against
 # target_link_libraries(state_publisher_node
