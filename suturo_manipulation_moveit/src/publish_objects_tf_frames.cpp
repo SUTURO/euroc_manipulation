@@ -12,6 +12,8 @@
 #include <moveit/move_group_interface/move_group.h>
 #include <moveit/move_group/capability_names.h>
 
+#include <suturo_manipulation_moveit/node_status.hpp>
+
 /**
  * This Programm publishes a tf frame into every collisionobject and attached object.
  */
@@ -122,6 +124,8 @@ int main(int argc, char **argv)
     ros::ServiceClient ps_service_client = n.serviceClient<moveit_msgs::GetPlanningScene>(move_group::GET_PLANNING_SCENE_SERVICE_NAME);
 
     ros::WallDuration(1.0).sleep();
+    suturo_manipulation::NodeStatus node_status(n);
+    node_status.nodeStarted(suturo_manipulation_msgs::ManipulationNodeStatus::NODE_PUBLISH_OBJECT_FRAMES);
 
     while (getObjects(ps_service_client, cos) && getAttachedObjects(ps_service_client, acos))
     {

@@ -16,6 +16,8 @@
 #include <moveit/planning_scene/planning_scene.h>
 #include <moveit/kinematic_constraints/utils.h>
 
+#include <suturo_manipulation_moveit/node_status.hpp>
+
 using namespace std;
 
 ros::Publisher joint_state_pub;
@@ -45,10 +47,39 @@ void publishTfFrame(std::string frame_id, geometry_msgs::PoseStamped pose, tf::T
 void publish_cam_frames()
 {
     geometry_msgs::PoseStamped ps;
+
+    // ps.header.frame_id
+
+    ps.header.frame_id = "/odom_combined";
+    ps.pose.position.x = 0;
+    ps.pose.position.y = 0;
+    ps.pose.orientation.w = 1;
+    // ps.pose.orientation =  tf::createQuaternionMsgFromRollPitchYaw(-M_PI_2,  0.0,  -M_PI_2);
+    publishTfFrame("/base_link", ps, *br);
+
+    ps.header.frame_id = "/odom_combined";
+    ps.pose.position.x = 0.92;
+    ps.pose.position.y = 0.92;
+    // ps.pose.orientation.w = 1;
+    ps.pose.orientation =  tf::createQuaternionMsgFromRollPitchYaw(0.0,  0.0,  -2.356);
+    publishTfFrame("/cm", ps, *br);
+
+    ps.header.frame_id = "/cm";
+    ps.pose.position.x = 0;
+    ps.pose.position.y = 0;
+    ps.pose.position.z = 1.1;
+    ps.pose.orientation.x = 0;
+    ps.pose.orientation.y = 0;
+    ps.pose.orientation.z = 0;
+    ps.pose.orientation.w = 1;
+    // ps.pose.orientation =  tf::createQuaternionMsgFromRollPitchYaw(-M_PI_2,  0.0,  -M_PI_2);
+    publishTfFrame("/pt_base", ps, *br);
+
     ps.header.frame_id = "/pt";
     ps.pose.position.x = 0.2;
     ps.pose.position.y = 0.02;
-    ps.pose.orientation.w = 1;
+    ps.pose.position.z = 0;
+    // ps.pose.orientation.w = 1;
     // ps.pose.orientation =  tf::createQuaternionMsgFromRollPitchYaw(-M_PI_2,  0.0,  -M_PI_2);
     publishTfFrame("/srgb", ps, *br);
 
@@ -103,35 +134,8 @@ void callback(const euroc_c2_msgs::Telemetry::ConstPtr &telemetry)
 
 void callback2(const geometry_msgs::PoseStamped::ConstPtr &tcp)
 {
-    // sensor_msgs::JointState joint_state;
-    // joint_state.header = telemetry->header;
 
-    // for (int i = 2; i < telemetry->joint_names.size() - 3; ++i)
-    // {
-    //     joint_state.name.push_back(telemetry->joint_names[i]);
-    //     joint_state.position.push_back(telemetry->measured.position[i]);
-    //     joint_state.velocity.push_back(telemetry->commanded.velocity[i]);
-    //     joint_state.effort.push_back(telemetry->commanded.acceleration[i]);
-
-    // }
-    // joint_state.name.push_back("joint_before_finger2");
-    // joint_state.position.push_back(telemetry->measured.position[9] / 2);
-    // joint_state.velocity.push_back(telemetry->commanded.velocity[9]);
-    // joint_state.effort.push_back(telemetry->commanded.acceleration[9]);
-
-    // joint_state.name.push_back("joint_before_finger1");
-    // joint_state.position.push_back(-telemetry->measured.position[9] / 2);
-    // joint_state.velocity.push_back(telemetry->commanded.velocity[9]);
-    // joint_state.effort.push_back(telemetry->commanded.acceleration[9]);
-
-    // joint_state_pub.publish(joint_state);
-
-    // geometry_msgs::PoseStamped cam_pose;
-    // cam_pose.header.frame_id = "/pt_base";
-    // cam_pose.pose.orientation = tf::createQuaternionMsgFromRollPitchYaw(0, telemetry->measured.position[11], telemetry->measured.position[10]);
-    // ROS_INFO_STREAM("???");
     publishTfFrame("/tcp", *tcp, *br2);
-    // publish_cam_frames();
 }
 
 int main(int argc, char **argv)
@@ -148,6 +152,8 @@ int main(int argc, char **argv)
 
     // ros::AsyncSpinner spinner(2); // Use 4 threads
     // spinner.start();
+    suturo_manipulation::NodeStatus node_status(n);
+    node_status.nodeStarted(suturo_manipulation_msgs::ManipulationNodeStatus::NODE_JOINT_STATE);
     ros::spin();
     return 0;
 }
