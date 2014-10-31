@@ -26,15 +26,16 @@ namespace suturo_manipulation
 			return true;
 		}
 		
-		// bool publishRequiredNodes(int task)
-		// {
-		// 	node_status_publisher = node_handle_.advertise<suturo_perception_msgs::ManipulationNodeStatus> ("/suturo/perception_node_status", 1, true);
-		// 	suturo_perception_msgs::ManipulationNodeStatus status_msg;
-		// 	status_msg.started_node = 200;
-		// 	status_msg.required_nodes = getRequiredNodesForTask(task);
-		// 	node_status_publisher.publish(status_msg);
-		// 	return true;
-		// }
+		bool publishRequiredNodes()
+		{
+			// node_status_publisher = node_handle_.advertise<suturo_perception_msgs::ManipulationNodeStatus> ("/suturo/manipulation_node_status", 1, true);
+			suturo_manipulation_msgs::ManipulationNodeStatus status_msg;
+			status_msg.started_node = suturo_manipulation_msgs::ManipulationNodeStatus::REQUIRED_NODES_INCOMING;
+			status_msg.required_nodes.push_back(suturo_manipulation_msgs::ManipulationNodeStatus::NODE_JOINT_STATE);
+			status_msg.required_nodes.push_back(suturo_manipulation_msgs::ManipulationNodeStatus::NODE_PUBLISH_OBJECT_FRAMES);
+			node_status_publisher.publish(status_msg);
+			return true;
+		}
 		
 		// std::vector<unsigned short> getRequiredNodesForTask(int task)
 		// {

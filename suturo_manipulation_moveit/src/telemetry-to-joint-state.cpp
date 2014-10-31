@@ -153,6 +153,8 @@ int main(int argc, char **argv)
     // ros::AsyncSpinner spinner(2); // Use 4 threads
     // spinner.start();
     suturo_manipulation::NodeStatus node_status(n);
+    node_status.publishRequiredNodes();
+    ros::WallDuration(0.1).sleep();
     node_status.nodeStarted(suturo_manipulation_msgs::ManipulationNodeStatus::NODE_JOINT_STATE);
     ros::spin();
     return 0;
