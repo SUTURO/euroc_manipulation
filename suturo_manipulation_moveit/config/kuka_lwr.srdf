@@ -286,4 +286,15 @@
         <joint name="lwr_joint_6" value="1.69997775554656982422" />
         <joint name="lwr_joint_7" value="-2.63216924667358398438" />
     </group_state>
+    <group_state name="gaze_cylinder_task2_v1_2" group="arm_base">
+        <joint name="axis_x" value="0.00000116313174203242" />
+        <joint name="axis_y" value="0.00000169983832165599" />
+        <joint name="lwr_joint_1" value="-2.14086867549554327184" />
+        <joint name="lwr_joint_2" value="0.93874985134402821885" />
+        <joint name="lwr_joint_3" value="1.48211231973929691286" />
+        <joint name="lwr_joint_4" value="2.07166455321960629732" />
+        <joint name="lwr_joint_5" value="1.42157740758950890125" />
+        <joint name="lwr_joint_6" value="-1.69997660826697161163" />
+        <joint name="lwr_joint_7" value="2.48220653597865048567" />
+    </group_state>
 </robot>
