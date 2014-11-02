@@ -350,14 +350,14 @@
     <child link="finger2"/>
     <origin rpy="0 0 0" xyz="0 0 0"/>
     <axis xyz="1.0 0 0"/>
-    <limit velocity="1.6" effort="150" lower="0" upper="0.035"/>
+    <limit velocity="1.6" effort="150" lower="0" upper="0.034"/>
   </joint>
   <joint type="prismatic" name="joint_before_finger1">
     <parent link="gp"/>
     <child link="finger1"/>
     <origin rpy="0 0 0" xyz="0 0 0"/>
     <axis xyz="1.0 0 0"/>
-    <limit velocity="1.6" effort="150" lower="-0.035" upper="0"/>
+    <limit velocity="1.6" effort="150" lower="-0.034" upper="0"/>
   </joint>
 
 
