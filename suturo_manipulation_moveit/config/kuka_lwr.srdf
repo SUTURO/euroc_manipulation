@@ -47,8 +47,8 @@
         <joint name="joint_before_finger2" value="0" />
     </group_state>
     <group_state name="opened" group="gripper">
-        <joint name="joint_before_finger1" value="-0.035" />
-        <joint name="joint_before_finger2" value="0.035" />
+        <joint name="joint_before_finger1" value="-0.034" />
+        <joint name="joint_before_finger2" value="0.034" />
     </group_state>
     <group_state name="scan_pose1" group="arm">
         <joint name="lwr_joint_1" value="-2.3" />
