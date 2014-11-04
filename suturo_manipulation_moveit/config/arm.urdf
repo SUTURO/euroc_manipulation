@@ -235,7 +235,7 @@
     <child link="link6"/>
     <origin rpy="1.57079632679 0 0" xyz="0 0 0.19"/>
     <axis xyz="0 0 1"/>
-    <limit velocity="1.6" effort="150" lower="-1.7" upper="1.7"/>
+    <limit velocity="1.6" effort="150" lower="-1.65" upper="1.65"/>
   </joint>
   <joint type="revolute" name="lwr_joint_7">
     <parent link="link6"/>
