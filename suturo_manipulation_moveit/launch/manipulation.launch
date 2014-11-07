@@ -2,13 +2,13 @@
 
   	<include file="$(find suturo_manipulation_moveit)/launch/tf.launch"/>
 
-  	<node name="arm_controller" pkg="suturo_manipulation_moveit" type="arm_controller" respawn="true" output="screen"/>
+  	<node name="arm_controller" pkg="suturo_manipulation_moveit" type="arm_controller" output="screen"/>
 
-  	<node name="arm_base_controller" pkg="suturo_manipulation_moveit" type="arm_base_controller" respawn="true" output="screen"/>
+  	<node name="arm_base_controller" pkg="suturo_manipulation_moveit" type="arm_base_controller" output="screen"/>
 
-  	<node name="gripper_controller" pkg="suturo_manipulation_moveit" type="gripper_controller" respawn="true" output="screen"/>
+  	<node name="gripper_controller" pkg="suturo_manipulation_moveit" type="gripper_controller" output="screen"/>
 
-  	<node name="base_controller" pkg="suturo_manipulation_moveit" type="base_controller" respawn="true" output="screen"/>
+  	<node name="base_controller" pkg="suturo_manipulation_moveit" type="base_controller" output="screen"/>
 
 	<include file="$(find suturo_manipulation_moveit)/launch/move_group.launch">
   		<arg name="publish_monitored_planning_scene" value="true" />

@@ -297,4 +297,15 @@
         <joint name="lwr_joint_6" value="-1.69997660826697161163" />
         <joint name="lwr_joint_7" value="2.48220653597865048567" />
     </group_state>
+    <group_state name="asdasd" group="arm_base">
+        <joint name="axis_x" value="0.54724472761154174805" />
+        <joint name="axis_y" value="-0.87734299898147583008" />
+        <joint name="lwr_joint_1" value="2.46303477928059688651" />
+        <joint name="lwr_joint_2" value="0.00922646793158535435" />
+        <joint name="lwr_joint_3" value="0.38346011310680416795" />
+        <joint name="lwr_joint_4" value="-1.50513237994721338353" />
+        <joint name="lwr_joint_5" value="0.71313001060466896242" />
+        <joint name="lwr_joint_6" value="1.55613509139474115450" />
+        <joint name="lwr_joint_7" value="-0.12030067084475375150" />
+    </group_state>
 </robot>

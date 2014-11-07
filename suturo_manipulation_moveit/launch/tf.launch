@@ -7,6 +7,6 @@
   	
   	<include file="$(find suturo_manipulation_moveit)/launch/publish_joint_state.launch"/>
 
-  	<node name="publish_objects_tf_frames" pkg="suturo_manipulation_moveit" type="publish_objects_tf_frames" output="screen" respawn="true"/>
+  	<node name="publish_objects_tf_frames" pkg="suturo_manipulation_moveit" type="publish_objects_tf_frames" output="screen"/>
 
 </launch>
