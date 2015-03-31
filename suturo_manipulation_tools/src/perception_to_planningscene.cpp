@@ -6,7 +6,7 @@
 #include <moveit/planning_scene_interface/planning_scene_interface.h>
 
 #include <moveit_msgs/CollisionObject.h>
-#include <suturo_perception_msgs/GetGripper.h>
+#include <suturo_perception_msgs/GetCameraPerception.h>
 
 using namespace std;
 
@@ -18,9 +18,9 @@ int main(int argc, char **argv)
 
   ros::NodeHandle n;
 
-  ros::ServiceClient clusterClient = n.serviceClient<suturo_perception_msgs::GetGripper>("/suturo/GetGripper");
+  ros::ServiceClient clusterClient = n.serviceClient<suturo_perception_msgs::GetCameraPerception>("/suturo/GetGripper");
   ros::Publisher pub_co = n.advertise<moveit_msgs::CollisionObject>("collision_object", 20);
-  suturo_perception_msgs::GetGripper gripperSrv;
+  suturo_perception_msgs::GetCameraPerception gripperSrv;
   gripperSrv.request.s = "get";
   ROS_INFO_STREAM("ServiceClient initialized");
   // run until service gets shut down
