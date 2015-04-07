@@ -18,7 +18,7 @@ int main(int argc, char **argv)
 
   ros::NodeHandle n;
 
-  ros::ServiceClient clusterClient = n.serviceClient<suturo_perception_msgs::GetCameraPerception>("/suturo/GetGripper");
+  ros::ServiceClient clusterClient = n.serviceClient<suturo_perception_msgs::GetCameraPerception>("/suturo/perception/GetGripper");
   ros::Publisher pub_co = n.advertise<moveit_msgs::CollisionObject>("collision_object", 20);
   suturo_perception_msgs::GetCameraPerception gripperSrv;
   gripperSrv.request.s = "get";
@@ -47,7 +47,7 @@ int main(int argc, char **argv)
     }
     else
     {
-      ROS_ERROR("Failed to call service /suturo/GetGripper");
+      ROS_ERROR("Failed to call service /suturo/perception/GetGripper");
       return 1;
     }
     boost::this_thread::sleep(boost::posix_time::seconds(1));

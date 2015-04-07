@@ -14,7 +14,7 @@ namespace suturo_manipulation
 	public:
 		NodeStatus(ros::NodeHandle &node_handle) : node_handle_(node_handle) {
 			// logger = Logger("NodeStatus");
-			node_status_publisher = node_handle_.advertise<suturo_startup_msgs::ManipulationNodeStatus> ("/suturo/manipulation_node_status", 1, true);
+			node_status_publisher = node_handle_.advertise<suturo_startup_msgs::ManipulationNodeStatus> ("/suturo/startup/manipulation_node_status", 1, true);
 		}
 		
 		bool nodeStarted(int node)
@@ -28,7 +28,7 @@ namespace suturo_manipulation
 		
 		bool publishRequiredNodes()
 		{
-			// node_status_publisher = node_handle_.advertise<suturo_perception_msgs::ManipulationNodeStatus> ("/suturo/manipulation_node_status", 1, true);
+			// node_status_publisher = node_handle_.advertise<suturo_perception_msgs::ManipulationNodeStatus> ("/suturo/startup/manipulation_node_status", 1, true);
 			suturo_startup_msgs::ManipulationNodeStatus status_msg;
 			status_msg.started_node = suturo_startup_msgs::ManipulationNodeStatus::REQUIRED_NODES_INCOMING;
 			status_msg.required_nodes.push_back(suturo_startup_msgs::ManipulationNodeStatus::NODE_JOINT_STATE);
