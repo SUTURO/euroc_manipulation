@@ -12,6 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
   sensor_msgs
   std_msgs
   suturo_manipulation_msgs
+  suturo_startup_msgs
   suturo_msgs
 )
 
@@ -20,7 +21,7 @@ find_package(Eigen REQUIRED)
 catkin_package(
   INCLUDE_DIRS include
   # LIBRARIES perception_utils
-  CATKIN_DEPENDS roscpp sensor_msgs std_msgs suturo_manipulation_msgs suturo_msgs
+  CATKIN_DEPENDS roscpp sensor_msgs std_msgs suturo_manipulation_msgs suturo_msgs suturo_startup_msgs
   # DEPENDS opencv pcl
 )
 
@@ -78,7 +79,7 @@ add_dependencies(arm_base_controller ${catkin_EXPORTED_TARGETS} euroc_c2_msgs_ge
 add_dependencies(gripper_controller ${catkin_EXPORTED_TARGETS} euroc_c2_msgs_generate_messages_cpp)
 add_dependencies(spawn_planningscene ${catkin_EXPORTED_TARGETS})
 add_dependencies(save_pose ${catkin_EXPORTED_TARGETS})
-add_dependencies(publish_objects_tf_frames ${catkin_EXPORTED_TARGETS})
+add_dependencies(publish_objects_tf_frames ${catkin_EXPORTED_TARGETS} suturo_manipulation_msgs_generate_messages_cpp)
 add_dependencies(telemetry_to_joint_state ${catkin_EXPORTED_TARGETS} suturo_manipulation_msgs)
 
 ## Specify libraries to link a library or executable target against
